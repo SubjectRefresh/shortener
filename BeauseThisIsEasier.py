@@ -1,4 +1,4 @@
-# main.py 
+# Code stolen from: https://impythonist.wordpress.com/2015/10/31/building-your-own-url-shortening-service-with-python-and-flask/
 
 from flask import Flask, request, render_template, redirect
 from math import floor
