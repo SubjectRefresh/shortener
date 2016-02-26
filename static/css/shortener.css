@@ -1,0 +1,110 @@
+/* http://codepen.io/fluxus/pen/xwDzB */
+
+@import url(http://weloveiconfonts.com/api/?family=iconicfill);
+@import url(http://fonts.googleapis.com/css?family=Arvo);
+
+/* iconicfill */
+
+[class*="iconicfill-"]:before {
+    font-family: 'IconicFill', sans-serif;
+}
+
+body,
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: 'Arvo';
+    background: #4f3b5b;
+    background: -moz-radial-gradient(center, ellipse cover, #4f3b5b 0%, #231733 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #4f3b5b), color-stop(100%, #231733));
+    background: -webkit-radial-gradient(center, ellipse cover, #4f3b5b 0%, #231733 100%);
+    background: -o-radial-gradient(center, ellipse cover, #4f3b5b 0%, #231733 100%);
+    background: -ms-radial-gradient(center, ellipse cover, #4f3b5b 0%, #231733 100%);
+    background: radial-gradient(ellipse at center, #4f3b5b 0%, #231733 100%);
+}
+
+.wrap {
+    width: 300px;
+}
+
+.center {
+    top: 50%;
+    transform: translateY(-50%);
+    position: relative;
+    margin: auto;
+}
+
+input {
+    display: block;
+    width: 300px;
+    padding: 15px 0 15px 12px;
+    font-family: "Arvo";
+    font-weight: 400;
+    color: #377D6A;
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    outline: none;
+    color: #fff;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.2), 0 1px 1px rgba(255, 255, 255, 0.2);
+    text-indent: 60px;
+    transition: all .3s ease-in-out;
+    position: relative;
+    font-size: 13px;
+}
+
+input:focus {
+    text-indent: 12px;
+    box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.4), 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+label {
+    display: block;
+    position: static;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    font-family: 'Arvo';
+    font-size: 16px;
+}
+
+.wrap-label {
+    width: 300px;
+    height: 34px;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    bottom: -15px;
+    overflow: hidden;
+}
+
+.iconicfill-pen-alt2 {
+    position: absolute;
+    left: 10px;
+    color: #fff;
+    font-size: 19px;
+    opacity: 1;
+    top: 0;
+    transform: translateX(-100px);
+}
+
+
+/* ==== Pen animation ==== */
+
+.move-pen {
+    animation: move-pen 1s ease-in infinite alternate;
+}
+
+@keyframes move-pen {
+    from {
+        transform: translateX(-4px) rotate(6deg);
+    }
+    to {
+        transform: translateX(4px) rotate(-3deg);
+    }
+}
