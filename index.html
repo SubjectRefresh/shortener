@@ -8,22 +8,22 @@
 
 <body>
     <div class="wrap center">
-    	<div class="wrap-label">
-			<label><span id="count">0</span> new shortlinks</label>	
-		</div>
-    	<div class="wrap-label">
-			<label for="url">Long URL</label>
-			<p class="iconicfill-pen-alt2"></p>
-		</div>
-		<form>
-			<input type="text" id="url" >
-		</form>
-	</div>
+        <div class="wrap-label">
+            <label><span id="count">0</span> new shortlinks</label>
+        </div>
+        <div class="wrap-label">
+            <label for="url">Long URL</label>
+            <p class="iconicfill-pen-alt2"></p>
+        </div>
+        <form>
+            <input type="text" id="url" onClick="this.select();">
+        </form>
+    </div>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
     $(function() {
-    	var count = 0;
+        var count = 0;
         var socket = io();
         $('form').on("submit", function() {
             var url = $("#url").val();
@@ -33,14 +33,14 @@
             return false;
         });
         socket.on('short', function(msg) {
-        	count++;
+            count++;
             $("#count").html(count);
             $("#url").val(msg);
             console.log(msg);
             $("#url").fadeIn("fast");
         });
-        socket.on("e", function(packet){
-        	console.error(packet);
+        socket.on("e", function(packet) {
+            console.error(packet);
         });
     })
     </script>
