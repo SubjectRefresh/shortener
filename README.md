@@ -17,3 +17,4 @@ To get a shortened URL:
 short.retrieve(mongodbDoc.hash).then(function(result) {
   console.log("Long URL: " + result.hash)
 })
+```
