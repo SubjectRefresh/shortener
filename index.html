@@ -39,6 +39,9 @@
             console.log(msg);
             $("#url").fadeIn("fast");
         });
+        socket.on("e", function(packet){
+        	console.error(packet);
+        });
     })
     </script>
 </body>
