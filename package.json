@@ -1,0 +1,22 @@
+{
+  "name": "shortener",
+  "version": "1.0.0",
+  "description": "A URL Shortener",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SubjectRefresh/shortener.git"
+  },
+  "keywords": [
+    "shortener"
+  ],
+  "author": "Subject Refresh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SubjectRefresh/shortener/issues"
+  },
+  "homepage": "https://github.com/SubjectRefresh/shortener#readme"
+}
