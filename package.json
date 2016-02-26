@@ -10,6 +10,11 @@
     "type": "git",
     "url": "git+https://github.com/SubjectRefresh/shortener.git"
   },
+  "dependencies": {
+    "express": "4.10.2",
+    "short": "^2.6.0",
+    "socket.io": "1.2.0"
+  },
   "keywords": [
     "shortener"
   ],
