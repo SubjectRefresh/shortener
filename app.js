@@ -38,7 +38,6 @@ app.get("/:long/stats", function(req, res) {
                 info: "More data to come in the future!",
                 status: 200
             });
-            console.log("[Shortener] " + hits + " for " + baseURL + req.params.long);
         } else {
             res.status(404).json({
                 message: "Not found",
