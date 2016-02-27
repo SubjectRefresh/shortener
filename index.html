@@ -25,22 +25,26 @@
     $(function() {
     	var count = 0;
         var socket = io();
+        var url;
         $('form').on("submit", function() {
-            var url = $("#url").val();
+        	url = $("#url").val();
             // do URL validation on url
-            socket.emit('url', url);
-            $("#url").fadeOut("fast");
+            socket.emit("url", url, function(packet) {
+            	if (packet.status){
+		            $("#count").html(count);
+		            $("#url").fadeOut("fast", function(){
+			            $("#url").val(packet.shortlink);
+			            $("#url").fadeIn("fast");
+			        });
+		        } else {
+		        	console.log(packet.message);
+		        }
+		    });
             return false;
         });
-        socket.on('short', function(msg) {
+        socket.on('increment count', function() {
         	count++;
             $("#count").html(count);
-            $("#url").val(msg);
-            console.log(msg);
-            $("#url").fadeIn("fast");
-        });
-        socket.on("e", function(packet){
-        	console.error(packet);
         });
     })
     </script>
