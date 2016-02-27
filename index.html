@@ -19,14 +19,15 @@
 			<input type="text" id="url" onClick="this.select();">
 		</form>
 	</div>
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script>
     $(function() {
     	var count = 0;
         var socket = io();
         var url;
-        $('form').on("submit", function() {
+        $("form").on("submit", function() {
         	url = $("#url").val();
             // do URL validation on url
             socket.emit("url", url, function(packet) {
@@ -37,12 +38,13 @@
 			            $("#url").fadeIn("fast");
 			        });
 		        } else {
+		        	$("form").effect("shake");
 		        	console.log(packet.message);
 		        }
 		    });
             return false;
         });
-        socket.on('increment count', function() {
+        socket.on("increment count", function() {
         	count++;
             $("#count").html(count);
         });
