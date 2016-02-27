@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+	<title>Redirecting | Made by SubjectRefresh</title>
+</head>
+
+<body>
+	<script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script>
+	(function() {
+		var socket = io();
+		var data = {
+		  codename: navigator.appCodeName,
+		  name: navigator.appName,
+		  version: navigator.appVersion,
+		  cookies: navigator.cookieEnabled,
+		  language: navigator.language,
+		  online: navigator.onLine,
+		  platform: navigator.platform,
+		  useragent: navigator.userAgent,
+		  vendor: navigator.vendor,
+		  height: window.screen.height,
+		  width: window.screen.width,
+		  url: window.location.pathname
+		}
+
+		data.url = data.url.substr(1)
+
+		socket.emit("data", data)
+
+		socket.on("redirect", function(data) {
+			window.location.replace(data);
+		});
+	})()
+	</script>
+</body>
+
+</html>
