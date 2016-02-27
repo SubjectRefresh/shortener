@@ -2,16 +2,16 @@
 <html>
 
 <head>
-    <title>Shortener | Made by SubjectRefresh</title>
-    <link rel="stylesheet" type="text/css" href="css/shortener.css" />
+	<title>Shortener | Made by SubjectRefresh</title>
+	<link rel="stylesheet" type="text/css" href="css/shortener.css" />
 </head>
 
 <body>
-    <div class="wrap center">
-    	<div class="wrap-label">
-			<label><span id="count">0</span> new shortlinks</label>	
+	<div class="wrap center">
+		<div class="wrap-label">
+			<label><span id="count">0</span> new shortlinks</label>
 		</div>
-    	<div class="wrap-label">
+		<div class="wrap-label">
 			<label for="url">Long URL</label>
 			<p class="iconicfill-pen-alt2"></p>
 		</div>
@@ -19,37 +19,46 @@
 			<input type="text" id="url" onClick="this.select();">
 		</form>
 	</div>
-    <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script>
-    $(function() {
-    	var count = 0;
-        var socket = io();
-        var url;
-        $("form").on("submit", function() {
-        	url = $("#url").val();
-            // do URL validation on url
-            socket.emit("url", url, function(packet) {
-            	if (packet.status){
-		            $("#count").html(count);
-		            $("#url").fadeOut("fast", function(){
-			            $("#url").val(packet.shortlink);
-			            $("#url").fadeIn("fast");
-			        });
-		        } else {
-		        	$("form").effect("shake");
-		        	console.log(packet.message);
-		        }
-		    });
-            return false;
-        });
-        socket.on("increment count", function() {
-        	count++;
-            $("#count").html(count);
-        });
-    })
-    </script>
+	<script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.1.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script>
+	$(function() {
+		var count = 0;
+		var socket = io();
+		var url;
+		$("form").on("submit", function() {
+			url = $("#url").val();
+			generateShortlink(url);
+			return false;
+		});
+
+		$("#url").on("paste", function() {
+			var element = this;
+			setTimeout(function() { // otherwise the value is blank
+				generateShortlink($(element).val());
+			}, 0);
+		});
+		socket.on("increment count", function() {
+			count++;
+			$("#count").html(count);
+		});
+
+		function generateShortlink(url){
+			socket.emit("url", url, function(packet) {
+				if (packet.status) {
+					$("#count").html(count);
+					$("#url").fadeOut("fast", function() {
+						$("#url").val(packet.shortlink);
+						$("#url").fadeIn("fast");
+					});
+				} else {
+					$("form").effect("shake");
+				}
+			});
+		}
+	});
+	</script>
 </body>
 
 </html>
