@@ -133,12 +133,11 @@ MongoClient.connect(dbURL, function(err, db) {
     app.use('/', express.static(__dirname + '/static'))
 
     app.get('/:long', function(req, res) {
-      console.log(req.params.long)
       retrieve(req.params.long, function(data) {
         if (data.status) {
-          console.log(redirect)
-          console.log('[Shortener] Redirecting ' + baseURL + req.params.long + ' to ' + redirect.shortlink)
-          res.redirect('http://' + redirect.shortlink)
+          console.log(data.long)
+          console.log('[Shortener] Redirecting ' + baseURL + req.params.long + ' to ' + data.long)
+          res.redirect('http://' + data.long)
         } else {
           console.log("Unknown Short URL")
         }
