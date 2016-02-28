@@ -62,7 +62,7 @@ function shorten(url, customURL, callback) {
             // In Either Case for Now, Let's just return the existing...
             callback({
                 status: true,
-                short: result[0].short
+                short: baseURL + result[0].short
             });
         } else {
             if (customURL != null) {
