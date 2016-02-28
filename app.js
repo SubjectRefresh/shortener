@@ -16,7 +16,7 @@ var urlRegExp = /^((ht|f)tps?:\/\/|)[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}
 app.use('/', express.static(__dirname + '/static'))
 
 app.get("/favicon.ico", function(req, res) {
-	res.send(404);
+	res.sendStatus(404);
 });
 
 app.get('/:short', function(req, res) {

@@ -124,9 +124,14 @@ function retrieve(shortURL, callback) {
     })
 }
 
+function getStats(shortURL, callback){
+    console.log("Getting stats for " + shortURL);
+}
+
 module.exports = {
     init: init,
     retrieve: retrieve,
     shorten: shorten,
-    randomString: randomString
+    randomString: randomString,
+    getStats: getStats
 };
