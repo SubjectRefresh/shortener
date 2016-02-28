@@ -14,7 +14,7 @@ mongo.prototype.connect = function (config, callback) {
     if (err) {
       logger.error(l, 'Unable to connect to the mongoDB server. Error: ' + err)
     } else {
-      logger.log(l, 'Connection established to database')
+      logger.log(l, 'Connection established to ' + config.url)
       callback(db)
     }
   })

@@ -4,7 +4,7 @@ var l = 'SOCKT'
 
 var urlRegExp = /^((ht|f)tps?:\/\/|)[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/
 
-socket.prototype.init = function(http, shortener) {
+socket.prototype.init = function(http, shortener, db) {
   var io = require('socket.io')(http)
 
   io.on('connection', function (socket) {
@@ -20,35 +20,33 @@ socket.prototype.init = function(http, shortener) {
       } else {
         shortener.shorten(url, null, function (status) {
           if (status.status == true) {
-            console.log('[Shortener] Converted ' + url + ' to ' + status.short)
+            logger.success(l, 'Converted ' + url + ' to ' + status.short)
             callback({
               status: true,
               shortlink: status.short
             })
             io.sockets.emit('increment count')
           } else {
-            console.log('We ran into a problem')
+            logger.error(l, 'We ran into a problem')
           }
         })
       }
     })
     socket.on('data', function (data, callback) {
-      console.log(JSON.stringify(data))
-      MongoClient.connect('mongodb://localhost/shortener', function (err, db) {
+      logger.debug(l, JSON.stringify(data))
         var userData = db.collection('userData')
         userData.insert(data, function (err, result) {
           shortener.retrieve(data.url, function (retrieval) {
             if (retrieval.status) {
-              console.log('[Shortener] Redirecting ' + data.url + ' to ' + retrieval.long)
+              logger.success(l, 'Redirecting ' + data.url + ' to ' + retrieval.long)
               // res.redirect(302, data.long); // 302 means browsers don't bypass us next time
               callback(retrieval.long)
             } else {
-              console.log('[Shortener] Unknown short URL: ' + data.url)
+              logger.warn('Unknown short URL: ' + data.url)
               callback('http://subjectrefresh.info')
             }
           })
         })
-      })
     })
   })
 }

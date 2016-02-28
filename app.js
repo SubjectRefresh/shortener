@@ -14,14 +14,14 @@ var l = 'APP'
 
 mongo.connect(config, function(db) {
   var app = express.init()
-  express.serveStatic(app)
-  express.serveShorts(app)
-  express.serveStats(app)
   shortener.init(function (ok) {
     if (!ok) { logger.error(l, "Error initiating shortener module") }
     else {
       var http = server.serve(config, app)
-      socket.init(http, shortener)
+      socket.init(http, shortener, db)
+      express.serveStatic(app)
+      express.serveShorts(app, shortener)
+      // express.serveStats(app, shortener)
     }
   })
 })

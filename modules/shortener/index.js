@@ -1,7 +1,9 @@
 var mongodb = require("mongodb");
 var MongoClient = mongodb.MongoClient;
 var fs = require("fs");
+var logger = require('../logger.js')
 
+var l = "SHORT"
 var dbURL = "mongodb://localhost/shortener"
 var baseURL = "http://subr.pw/";
 
@@ -11,11 +13,11 @@ var UserCollection;
 function init(callback) {
     MongoClient.connect(dbURL, function(err, db) {
         if (err) {
-            console.log("[Shortener] Unable to connect to the MongoDB server. Error: ", err);
+            logger.error(l, "Unable to connect to the MongoDB server. Error: " + err);
             throw new Error("Unable to connect to MongoDB");
             callback(false);
         } else {
-            console.log("[Shortener] Connection established to ", dbURL);
+            logger.log(l, "Connection established to " + dbURL);
             URLCollection = db.collection("url");
             UserCollection = db.collection("userData");
 
@@ -52,9 +54,9 @@ function shorten(url, customURL, callback) {
         long: url
     }).toArray(function(err, result) {
         if (err) {
-            console.log(err);
+            logger.error(l, err);
         } else if (result.length) {
-            console.log("[Shortener] Long Already Exists");
+            logger.warning(l, "Long Already Exists");
             if (!changed) {
                 // This is a custom URL....
                 // Let"s break anyway...
@@ -73,9 +75,9 @@ function shorten(url, customURL, callback) {
                     short: customURL
                 }).toArray(function(err, result) {
                     if (err) {
-                        console.log(err);
+                        logger.error(l, err);
                     } else if (result.length) {
-                        console.log("[Shortener] customURL Already Exists");
+                        logger.warning(l, "customURL Already Exists");
                         callback({
                             status: false,
                             short: null
@@ -87,12 +89,12 @@ function shorten(url, customURL, callback) {
                         };
                         URLCollection.insert(data, function(err, result) {
                             if (err) {
-                                console.log(err);
+                                logger.error(l, err);
                             } else {
                                 fs.appendFile('./static/shortened.html', "<span style='font-family:monospace;'>" + baseURL + customURL + " | " + url + "</span><br />\n", function (err) {
-                                    if (err) console.log(err)
+                                    if (err) logger.error(l, err)
                                 });
-                                console.log("[Shortener] Added CustomURL to Database");
+                                logger.log(l, "Added CustomURL to Database");
                                 callback({
                                     status: true,
                                     short: baseURL + customURL
@@ -102,37 +104,37 @@ function shorten(url, customURL, callback) {
                     }
                 });
             } else {
-                console.log("[Shortener] CustomURL'ing went wrong...");
+                logger.error(l, "CustomURL'ing went wrong...");
             }
         }
     });
 }
 
 function retrieve(shortURL, callback) {
-    console.log("[Shortener] Retrieving:", shortURL);
+    logger.log(l, "Retrieving: " + shortURL);
     URLCollection.find({
         short: shortURL
     }).toArray(function(err, result) {
         if (err) {
-            console.log(err);
+            logger.error(err);
         } else {
             // console.log("Found:", result)
             callback({
-                status: true,
-                stats: stats
+                status: true
+                //stats: stats
             });
         }
     })
 }
 
 function getStats(shortURL, callback) {
-    console.log("Getting stats for " + shortURL);
-    console.log("userData.find({url:'" + shortURL + "'})");
+    logger.log(l, "Getting stats for " + shortURL);
+    logger.log(l, "userData.find({url:'" + shortURL + "'})");
     UserCollection.find({
         url: shortURL
     }).toArray(function(err, result) {
         if (err) {
-            console.log(err);
+            logger.error(l, err);
             callback({
                 status: false
             })
@@ -153,6 +155,6 @@ module.exports = {
     init: init,
     retrieve: retrieve,
     shorten: shorten,
-    randomString: randomString,
-    getStats: getStats
+    randomString: randomString
+    //getStats: getStats
 };

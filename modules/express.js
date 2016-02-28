@@ -23,7 +23,7 @@ express.prototype.serveStatic = function(app) {
   })
 }
 
-express.prototype.serveShorts = function(app) {
+express.prototype.serveShorts = function(app, shortener) {
   app.get('/:short', function(req, res) {
       shortener.retrieve(req.params.short, function(data) {
           if (data.status) {
@@ -38,7 +38,8 @@ express.prototype.serveShorts = function(app) {
   })
 }
 
-express.prototype.serveStats = function(app) {
+/*
+express.prototype.serveStats = function(app, shortener) {
   app.get('/:short/stats', function(req, res) {
       shortener.getStats(req.params.short, function(){
         if (hits) {
@@ -57,5 +58,6 @@ express.prototype.serveStats = function(app) {
     })
   })
 }
+*/
 
 module.exports = new express()
