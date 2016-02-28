@@ -15,6 +15,10 @@ var urlRegExp = /^((ht|f)tps?:\/\/|)[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}
 
 app.use('/', express.static(__dirname + '/static'))
 
+app.get("/favicon.ico", function(req, res){
+	res.send(404);
+});
+
 app.get('/:short', function(req, res) {
     shortener.retrieve(req.params.short, function(data) {
         if (data.status) {
@@ -28,24 +32,23 @@ app.get('/:short', function(req, res) {
     })
 })
 
-/*app.get('/:short/stats', function(req, res) {
-  var hitsPromise = short.hits(req.params.short)
-  hitsPromise.then(function(hits) {
-  if (hits) {
-    res.status(200).json({
-    hits: hits,
-    message: 'ok',
-    info: 'More data to come in the future!',
-    status: 200
-    })
-  } else {
-    res.status(404).json({
-    message: 'Not found',
-    status: 404
-    })
-  }
-  })
-})*/
+app.get('/:short/stats', function(req, res) {
+    shortener.getStats(req.params.short, function(){
+	    if (hits) {
+	        res.status(200).json({
+	            hits: hits,
+	            message: 'ok',
+	            info: 'More data to come in the future!',
+	            status: 200
+	        })
+	    } else {
+	        res.status(404).json({
+	            message: 'Not found',
+	            status: 404
+	        })
+	    }
+	}
+})
 
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html')
