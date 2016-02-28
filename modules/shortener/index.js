@@ -57,14 +57,7 @@ function shorten(url, customURL, callback) {
             logger.error(l, err);
         } else if (result.length) {
             logger.warning(l, "Long Already Exists");
-            if (!changed) {
-                // This is a custom URL....
-                // Let"s break anyway...
-            } else {
-                // This isn"t a custom URL!
-                // The Horror :3
-            }
-            // In Either Case for Now, Let's just return the existing...
+            if (!changed) {} else {}
             callback({
                 status: true,
                 short: baseURL + result[0].short
@@ -118,8 +111,6 @@ function retrieve(shortURL, callback) {
         if (err) {
             logger.error(err);
         } else {
-            // console.log("Found:", result)
-            // console.log(result)
             callback({
                 status: true,
                 stats: result[0].long
