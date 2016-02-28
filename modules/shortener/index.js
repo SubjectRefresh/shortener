@@ -4,7 +4,8 @@ var MongoClient = mongodb.MongoClient;
 var dbURL = "mongodb://localhost/shortener"
 var baseURL = "http://subr.pw/";
 
-var collection;
+var URLCollection;
+var UserCollection;
 
 function init(callback) {
     MongoClient.connect(dbURL, function(err, db) {
@@ -14,9 +15,10 @@ function init(callback) {
             callback(false);
         } else {
             console.log("[Shortener] Connection established to ", dbURL);
-            collection = db.collection("url");
+            URLCollection = db.collection("url");
+            UserCollection = db.collection("userData");
 
-            collection.createIndex({
+            URLCollection.createIndex({
                 short: 1,
             }, {
                 unique: true
@@ -45,7 +47,7 @@ function shorten(url, customURL, callback) {
         changed = true;
         customURL = randomString(6, "aA#");
     }
-    collection.find({
+    URLCollection.find({
         long: url
     }).toArray(function(err, result) {
         if (err) {
@@ -66,7 +68,7 @@ function shorten(url, customURL, callback) {
             });
         } else {
             if (customURL != null) {
-                collection.find({
+                URLCollection.find({
                     short: customURL
                 }).toArray(function(err, result) {
                     if (err) {
@@ -82,7 +84,7 @@ function shorten(url, customURL, callback) {
                             short: customURL,
                             long: url
                         };
-                        collection.insert(data, function(err, result) {
+                        URLCollection.insert(data, function(err, result) {
                             if (err) {
                                 console.log(err);
                             } else {
@@ -104,28 +106,43 @@ function shorten(url, customURL, callback) {
 
 function retrieve(shortURL, callback) {
     console.log("[Shortener] Retrieving:", shortURL);
-    collection.find({
+    URLCollection.find({
         short: shortURL
     }).toArray(function(err, result) {
         if (err) {
             console.log(err);
-        } else if (result.length) {
+        } else {
             // console.log("Found:", result)
             callback({
                 status: true,
-                long: result[0].long
-            });
-        } else {
-            callback({
-                status: false,
-                long: null
+                stats: stats
             });
         }
     })
 }
 
-function getStats(shortURL, callback){
+function getStats(shortURL, callback) {
     console.log("Getting stats for " + shortURL);
+    console.log("userData.find({url:'" + shortURL + "'})");
+    UserCollection.find({
+        url: shortURL
+    }).toArray(function(err, result) {
+        if (err) {
+            console.log(err);
+            callback({
+                status: false
+            })
+        } else if (result.length) {
+            callback({
+                status: true,
+                stats: result
+            });
+        } else {
+            callback({
+                status: false
+            })
+        }
+    })
 }
 
 module.exports = {

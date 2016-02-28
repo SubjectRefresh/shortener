@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Shortener | Made by SubjectRefresh</title>
+    <link rel="stylesheet" type="text/css" href="/css/shortener.css" />
+</head>
+
+<body>
+    <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var socket = io();
+        var shortURL = window.location.pathname.split("/");
+        shortURL = shortURL[shortURL.length-1];
+        console.log(shortURL);
+        socket.emit("stats", shortURL, function(stats) {
+            console.log(stats);
+        });
+        console.log(window.location.pathname);
+    });
+    </script>
+</body>
+
+</html>
