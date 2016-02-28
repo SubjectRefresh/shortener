@@ -23,68 +23,81 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 -->
-
 <!doctype html>
 <html>
 
 <head>
-	<title>Shortener | Made by SubjectRefresh</title>
-	<link rel="stylesheet" type="text/css" href="css/shortener.css" />
+    <title>Shortener | Made by SubjectRefresh</title>
+    <link rel="stylesheet" type="text/css" href="css/shortener.css" />
 </head>
 
 <body>
-	<div class="wrap center">
-		<div class="wrap-label">
-			<label><span id="count">0</span> new shortlinks</label>
-		</div>
-		<div class="wrap-label">
-			<label for="url">Long URL</label>
-			<p class="iconicfill-pen-alt2"></p>
-		</div>
-		<form>
-			<input type="text" id="url" onClick="this.select();">
-		</form>
-	</div>
-	<script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
-	<script src="//code.jquery.com/jquery-1.11.1.js"></script>
-	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-	<script>
-	$(function() {
-		var count = 0;
-		var socket = io();
-		var url;
-		$("form").on("submit", function() {
-			url = $("#url").val();
-			generateShortlink(url);
-			return false;
-		});
+    <div class="wrap center">
+        <div class="wrap-label">
+            <label><span id="count">0</span> new shortlinks</label>
+        </div>
+        <div class="wrap-label">
+            <label for="url">Long URL</label>
+            <p class="iconicfill-pen-alt2"></p>
+        </div>
+        <form>
+            <input type="text" id="url" onClick="this.select();">
+        </form>
+    </div>
+    <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script>
+    $(function() {
+        var count = 0;
+        var socket = io();
+        var url;
+        $("form").on("submit", function() {
+            url = $("#url").val();
+            generateShortlink(url);
+            return false;
+        });
 
-		$("#url").on("paste", function() {
-			var element = this;
-			setTimeout(function() { // otherwise the value is blank
-				generateShortlink($(element).val());
-			}, 0);
-		});
-		socket.on("increment count", function() {
-			count++;
-			$("#count").html(count);
-		});
+        $("#url").on("paste", function() {
+            var element = this;
+            setTimeout(function() { // otherwise the value is blank
+                generateShortlink($(element).val());
+            }, 0);
+        });
+        socket.on("increment count", function() {
+            count++;
+            $("#count").html(count);
+        });
 
-		function generateShortlink(url){
-			socket.emit("url", url, function(packet) {
-				if (packet.status) {
-					$("#count").html(count);
-					$("#url").fadeOut("fast", function() {
-						$("#url").val(packet.shortlink);
-						$("#url").fadeIn("fast");
-					});
-				} else {
-					$("form").effect("shake");
-				}
-			});
-		}
-	});
-	</script>
+        function generateShortlink(url) {
+            socket.emit("url", url, function(packet) {
+                if (packet.status) {
+                    $("#count").html(count);
+                    $("#url").fadeOut("fast", function() {
+                        $("#url").val(packet.shortlink);
+                        $("#url").fadeIn("fast");
+                    });
+                } else {
+                    $("form").effect("shake");
+                }
+            });
+        }
+    });
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-69122586-1', 'auto');
+    ga('send', 'pageview');
+    </script>
 </body>
 
 </html>
