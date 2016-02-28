@@ -37,10 +37,11 @@ socket.prototype.init = function(http, shortener, db) {
         var userData = db.collection('userData')
         userData.insert(data, function (err, result) {
           shortener.retrieve(data.url, function (retrieval) {
+            console.log(retrieval)
             if (retrieval.status) {
-              logger.success(l, 'Redirecting ' + data.url + ' to ' + retrieval.long)
+              logger.success(l, 'Redirecting ' + data.url + ' to ' + retrieval.stats)
               // res.redirect(302, data.long); // 302 means browsers don't bypass us next time
-              callback(retrieval.long)
+              callback(retrieval.stats)
             } else {
               logger.warn('Unknown short URL: ' + data.url)
               callback('http://subjectrefresh.info')

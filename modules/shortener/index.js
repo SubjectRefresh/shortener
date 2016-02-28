@@ -119,9 +119,10 @@ function retrieve(shortURL, callback) {
             logger.error(err);
         } else {
             // console.log("Found:", result)
+            // console.log(result)
             callback({
-                status: true
-                //stats: stats
+                status: true,
+                stats: result[0].long
             });
         }
     })
