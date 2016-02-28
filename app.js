@@ -87,7 +87,7 @@ io.on('connection', function (socket) {
         shortener.retrieve(data.url, function (retrieval) {
           var index = clients.indexOf(socket)
           if (index != -1) {
-            if (data.status) {
+            if (retrieval.status) {
               console.log('[Shortener] Redirecting ' + data.url + ' to ' + retrieval.long)
               // res.redirect(302, data.long); // 302 means browsers don't bypass us next time
               clients[index].emit('redirect', retrieval.long)
