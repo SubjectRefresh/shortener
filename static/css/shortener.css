@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import url(https://fonts.googleapis.com/css?family=Muli);
 html {
     box-sizing: border-box;
 }
@@ -11,7 +11,7 @@ html {
 }
 
 body {
-    font-family: "Montserrat";
+    font-family: "Muli";
     background: #001F3F;
 }
 
@@ -25,7 +25,7 @@ form {
 
 .title {
     color: rgba(255, 255, 255, .4);
-    font-family: "Montserrat";
+    font-family: "Muli";
     padding: 0rem .25rem 2em;
     font-size: .6rem;
     text-transform: uppercase;
@@ -46,7 +46,7 @@ form {
 }
 
 label {
-    font-family: "Montserrat";
+    font-family: "Muli";
     display: block;
     position: relative;
     z-index: -9;
@@ -70,7 +70,7 @@ label.highlight {
 [type="text"],
 [type="email"] {
     color: rgba(255, 255, 255, .4);
-    font-family: "Montserrat";
+    font-family: "Muli";
     padding: .25rem 0 0;
     font-size: 1.25rem;
     font-weight: 100;
