@@ -21,7 +21,8 @@
 		  vendor: navigator.vendor,
 		  height: window.screen.height,
 		  width: window.screen.width,
-		  url: window.location.pathname
+		  url: window.location.pathname,
+		  timestamp: String(Math.round(new Date().getTime()/1000.0))
 		}
 
 		data.url = data.url.substr(1)
