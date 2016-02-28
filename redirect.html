@@ -26,11 +26,9 @@
 
 		data.url = data.url.substr(1)
 
-		socket.emit("data", data)
-
-		socket.on("redirect", function(data) {
-			window.location.replace(data);
-		});
+		socket.emit("data", data, function(url){
+			window.location.replace(url)
+		})
 	})()
 	</script>
 </body>
