@@ -4,7 +4,7 @@ var l = 'SOCKT'
 
 var urlRegExp = /^((ht|f)tps?:\/\/|)[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/
 
-socket.prototype.init = function(http) {
+socket.prototype.init = function(http, shortener) {
   var io = require('socket.io')(http)
 
   io.on('connection', function (socket) {

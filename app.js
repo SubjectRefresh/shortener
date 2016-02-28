@@ -21,7 +21,7 @@ mongo.connect(config, function(db) {
     if (!ok) { logger.error(l, "Error initiating shortener module") }
     else {
       var http = server.serve(config, app)
-      socket.init(http)
+      socket.init(http, shortener)
     }
   })
 })
