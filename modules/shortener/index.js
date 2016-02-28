@@ -1,5 +1,6 @@
 var mongodb = require("mongodb");
 var MongoClient = mongodb.MongoClient;
+var fs = require("fs");
 
 var dbURL = "mongodb://localhost/shortener"
 var baseURL = "http://subr.pw/";
@@ -88,6 +89,9 @@ function shorten(url, customURL, callback) {
                             if (err) {
                                 console.log(err);
                             } else {
+                                fs.appendFile('./static/shortened.html', "<span style='font-family:monospace;'>" + baseURL + customURL + " | " + url + "</span><br />\n", function (err) {
+                                    if (err) console.log(err)
+                                });
                                 console.log("[Shortener] Added CustomURL to Database");
                                 callback({
                                     status: true,
