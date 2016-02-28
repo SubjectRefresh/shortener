@@ -19,6 +19,10 @@ app.get("/favicon.ico", function(req, res) {
 	res.sendStatus(404);
 });
 
+app.get("/shortened", function(req, res) {
+  res.sendFile(__dirname + "/static/shortened.html");
+});
+
 app.get('/:short', function(req, res) {
     shortener.retrieve(req.params.short, function(data) {
         if (data.status) {
