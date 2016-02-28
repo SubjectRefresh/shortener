@@ -11,6 +11,7 @@
     "url": "git+https://github.com/SubjectRefresh/shortener.git"
   },
   "dependencies": {
+    "colour": "^0.7.1",
     "express": "4.10.2",
     "mongodb": "^2.1.7",
     "short": "^2.6.0",
