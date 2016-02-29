@@ -110,11 +110,17 @@ function retrieve(shortURL, callback) {
     }).toArray(function(err, result) {
         if (err) {
             logger.error(err);
-        } else {
+        } else if (result.length) {
             callback({
                 status: true,
                 stats: result[0].long
             });
+        } else {
+            // No result!
+            callback({
+                status: false,
+                stats: "https://subr.pw/"
+            })
         }
     })
 }

@@ -44,7 +44,7 @@ socket.prototype.init = function(http, shortener, db) {
               callback(retrieval.stats)
             } else {
               logger.warn('Unknown short URL: ' + data.url)
-              callback('http://subjectrefresh.info')
+              callback('http://subr.pw/')
             }
           })
         })
