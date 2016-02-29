@@ -49,6 +49,11 @@ socket.prototype.init = function(http, shortener, db) {
           })
         })
     })
+    socket.on("stats", function(shortURL, callback){
+      shortener.getStats(shortURL, function(information){
+        callback(information);
+      })
+    })
   })
 }
 

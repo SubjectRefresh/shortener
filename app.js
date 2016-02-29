@@ -21,7 +21,7 @@ mongo.connect(config, function(db) {
       socket.init(http, shortener, db)
       express.serveStatic(app)
       express.serveShorts(app, shortener)
-      // express.serveStats(app, shortener)
+      express.serveStats(app)
     }
   })
 })

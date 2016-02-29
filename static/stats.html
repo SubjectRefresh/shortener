@@ -7,19 +7,49 @@
 </head>
 
 <body>
+    <div id="chartdiv"></div>
     <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/amcharts/3.13.0/amcharts.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/amcharts/3.13.0/pie.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/amcharts/3.13.0/serial.js"></script>
     <script type="text/javascript">
+    var chart;
+    var graph;
+    var chartData = [];
     $(function() {
         var socket = io();
         var shortURL = window.location.pathname.split("/");
-        shortURL = shortURL[shortURL.length-1];
-        console.log(shortURL);
+        shortURL = shortURL[shortURL.length - 2];
+
         socket.emit("stats", shortURL, function(stats) {
-            console.log(stats);
+            if (stats.status) {
+                for (var i = 0; i < stats.stats.length; i++) {
+                    stats.stats[i].timestamp = new Date(stats.stats[i].timestamp * 1000);
+                    chartData.push(stats.stats[i]);
+                }
+                AmCharts.ready(function() {
+                    chart = new AmCharts.AmSerialChart({
+                        "categoryAxis": {
+                            "minPeriod": "mm",
+                            "parseDates": true
+                        }
+                    });
+                    chart.dataProvider = chartData;
+                    chart.categoryField = "timestamp";
+
+                    graph = new AmCharts.AmGraph();
+                    graph.valueField = "visits";
+                    graph.type = "column";
+                    chart.addGraph(graph);
+
+                    chart.write('chartdiv');
+                });
+            } else {
+                window.location.href = "/";
+            }
         });
-        console.log(window.location.pathname);
     });
     </script>
 </body>

@@ -1,7 +1,7 @@
 var config = {}
 
-config.configVersion = '0.01'
-config.programVersion = '0.01'
+config.configVersion = '0.0.1'
+config.programVersion = '0.0.1'
 
 /*
 Error (4) - Log things when the system is in distress, will affect users.
