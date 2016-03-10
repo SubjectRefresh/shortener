@@ -2,6 +2,34 @@ var mongodb = require("mongodb");
 var MongoClient = mongodb.MongoClient;
 var fs = require("fs");
 var logger = require('../logger.js')
+var nouns = [];
+var adjs = [];
+
+
+function generateFiles() {
+    nouns = fs.readFileSync('./modules/shortener/nouns.txt').toString().split("\n")
+    adjs = fs.readFileSync('./modules/shortener/adjectives.txt').toString().split("\n")
+    for (i=0; i<nouns.length; i++) {
+        nouns[i] = nouns[i].replace("\r", "")
+    }
+    for (i=0; i<adjs.length; i++) {
+        adjs[i] = adjs[i].replace("\r", "")
+    }
+    nouns = shuffle(nouns)
+    adjs = shuffle(adjs)
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
 
 var l = "SHORT"
 var dbURL = "mongodb://localhost/shortener"
@@ -42,6 +70,17 @@ function randomString(length, chars) {
         result += mask[Math.floor(Math.random() * mask.length)]
     }
     return result;
+}
+
+function mnemonicGenerator(url, callback) {
+    if (nouns.length == 0 || adjs.length == 0) {
+        generateFiles();
+    } else {
+        minimnemonic = adjs.pop() + "-" + nouns.pop()
+        shorten(url, minimnemonic, function(blarg) {
+            callback(blarg)
+        })
+    }
 }
 
 function shorten(url, customURL, callback) {
@@ -153,6 +192,8 @@ module.exports = {
     init: init,
     retrieve: retrieve,
     shorten: shorten,
-    randomString: randomString
+    randomString: randomString,
+    generateFiles: generateFiles,
+    mnemonicGenerator: mnemonicGenerator
     //getStats: getStats
 };
