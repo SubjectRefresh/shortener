@@ -2,7 +2,7 @@ var socket = function () {}
 var logger = require('./logger.js')
 var l = 'SOCKT'
 
-var urlRegExp = /^((ht|f)tps?:\/\/|)[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/
+var urlRegExp = /^(https?:\/\/|)[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/
 
 socket.prototype.init = function(http, shortener, db) {
   var io = require('socket.io')(http)
@@ -48,6 +48,11 @@ socket.prototype.init = function(http, shortener, db) {
             }
           })
         })
+    })
+    socket.on("stats", function(shortURL, callback){
+      shortener.getStats(shortURL, function(information){
+        callback(information);
+      })
     })
   })
 }

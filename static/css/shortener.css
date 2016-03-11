@@ -91,3 +91,8 @@ a {
     color: inherit;
     text-decoration: none
 }
+
+#chartdiv {
+    width: 1000px;
+    height: 500px;
+}

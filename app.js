@@ -21,8 +21,9 @@ mongo.connect(config, function(db) {
       socket.init(http, shortener, db)
       express.serveStatic(app)
       express.serveShorts(app, shortener)
-      shortener.mnemonicGenerator("www.happygoogle.com", function(blarg) {continue})
+      // shortener.mnemonicGenerator("www.happygoogle.com", function(blarg) {continue})
       // express.serveStats(app, shortener)
+      express.serveStats(app)
     }
   })
 })

@@ -38,26 +38,12 @@ express.prototype.serveShorts = function(app, shortener) {
   })
 }
 
-/*
-express.prototype.serveStats = function(app, shortener) {
+
+express.prototype.serveStats = function(app) {
   app.get('/:short/stats', function(req, res) {
-      shortener.getStats(req.params.short, function(){
-        if (hits) {
-            res.status(200).json({
-                hits: hits,
-                message: 'ok',
-                info: 'More data to come in the future!',
-                status: 200
-            })
-        } else {
-            res.status(404).json({
-                message: 'Not found',
-                status: 404
-            })
-        }
-    })
+      res.sendFile(path.resolve("./static/stats.html"))
   })
 }
-*/
+
 
 module.exports = new express()

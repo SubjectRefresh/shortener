@@ -166,7 +166,6 @@ function retrieve(shortURL, callback) {
 
 function getStats(shortURL, callback) {
     logger.log(l, "Getting stats for " + shortURL);
-    logger.log(l, "userData.find({url:'" + shortURL + "'})");
     UserCollection.find({
         url: shortURL
     }).toArray(function(err, result) {
@@ -194,6 +193,6 @@ module.exports = {
     shorten: shorten,
     randomString: randomString,
     generateFiles: generateFiles,
-    mnemonicGenerator: mnemonicGenerator
-    //getStats: getStats
+    mnemonicGenerator: mnemonicGenerator,
+    getStats: getStats
 };
