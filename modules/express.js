@@ -14,9 +14,9 @@ express.prototype.serveStatic = function(app) {
     res.sendStatus(404);
   });
 
-  app.get("/shortened", function(req, res) {
-    res.sendFile(path.resolve("./static/shortened.html"));
-  });
+//  app.get("/shortened", function(req, res) {
+//    res.sendFile(path.resolve("./static/shortened.html"));
+//  });
 
   app.get('/', function (req, res) {
     res.sendFile(path.resolve('./index.html'))
