@@ -2,7 +2,7 @@ var socket = function () {}
 var logger = require('./logger.js')
 var l = 'SOCKT'
 
-var urlRegExp = /^(https?:\/\/|)[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/
+var urlRegExp = /^(https?:\/\/|)[a-z0-9-\.]+\.[a-z]{2,63}\/?([^\s<>\#"\,\{\}\\|\\\^\[\]`]+)?$/
 
 socket.prototype.init = function(http, shortener, db) {
   var io = require('socket.io')(http)
