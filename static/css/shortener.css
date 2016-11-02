@@ -1,4 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Muli);
+
+html, body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    border: 0;
+}
+
 html {
     box-sizing: border-box;
 }
@@ -19,8 +29,13 @@ form {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin: 4rem auto 0;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2rem;
     max-width: 26rem;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
 }
 
 .title {
@@ -31,6 +46,7 @@ form {
     text-transform: uppercase;
     font-weight: 100;
     letter-spacing: 2px;
+    align-self: flex-start;
 }
 
 .input-field {
@@ -43,6 +59,7 @@ form {
 
 .input-field.full {
     flex: 2 0 100%;
+    align-self: flex-end;
 }
 
 label {
