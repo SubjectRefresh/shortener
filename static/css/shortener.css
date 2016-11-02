@@ -130,7 +130,7 @@ footer {
     text-align: center;
     font-family: "Muli";
     color: rgba(255, 255, 255, .4);
-    font-size: 1.8rem;
+    font-size: 1.6rem;
 }
 
 footer a {
@@ -182,6 +182,13 @@ footer a {
     html {
         font-size: 18px;
     }
+}
+
+@media (min-width: 1200px) {
+    html {
+        font-size: 20px;
+        line-height: 1.4;
+    }
     form {
         max-width: 26rem;
     }
@@ -193,12 +200,5 @@ footer a {
     }
     footer {
         font-size: 1rem;
-    }
-}
-
-@media (min-width: 1200px) {
-    html {
-        font-size: 20px;
-        line-height: 1.4;
     }
 }
