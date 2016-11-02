@@ -2,6 +2,9 @@
 <html>
 
 <head>
+    <meta name="description" content="A blazing fast URL shortener built by SubjectRefresh."/>
+    <meta property="og:description" content="A blazing fast URL shortener built by SubjectRefresh."/>
+    <meta property='og:url' content='http://subr.pw/'/>
     <title>Shortener | Made by SubjectRefresh</title>
     <link rel="stylesheet" type="text/css" href="css/shortener.css" />
 </head>
@@ -13,9 +16,11 @@
             <input type="text" id="url" onClick="this.select();" autocomplete="off">
         </div><span class="title"><span id="count">0</span> New shortlinks</span>
     </form>
+    <footer>
+        <p>Made by <a href="//subjectrefresh.info">SubjectRefresh</a></p>
+    </footer>
     <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script>
     $('input').focus(function() {
         var label = $("[for='" + $(this).attr('id') + "']")
@@ -52,6 +57,7 @@
         });
 
         function generateShortlink(url) {
+            $("#url").removeClass("shake");
             socket.emit("url", url, function(packet) {
                 if (packet.status) {
                     $("#count").html(count);
@@ -59,7 +65,7 @@
                         $("#url").val(packet.shortlink).fadeIn("fast").click();
                     });
                 } else {
-                    $("form").effect("shake");
+                    $("#url").addClass("shake");
                 }
             });
         }

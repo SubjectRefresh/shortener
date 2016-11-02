@@ -88,13 +88,14 @@ label.highlight {
 [type="email"] {
     color: rgba(255, 255, 255, .4);
     font-family: "Muli";
-    padding: .25rem 0 0;
-    font-size: 1.25rem;
-    font-weight: 100;
-    width: 100%;
-    border: none;
-    border-bottom: 1px solid;
-    background: none;
+    padding: .25rem 0 0 !important;
+    font-size: 1.25rem !important;
+    font-weight: 100 !important;
+    width: 100% !important;
+    border: none !important;
+    border-bottom: 1px solid !important;
+    box-sizing: inherit !important;
+    background: none !important;
     transition: color .3s ease;
 }
 
@@ -109,7 +110,59 @@ a {
     text-decoration: none
 }
 
-#chartdiv {
-    width: 1000px;
-    height: 500px;
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: white;
+    width: 100%;
+    text-align: center;
+    font-family: "Muli";
+    color: rgba(255, 255, 255, .4);
+}
+
+footer a {
+    text-decoration: underline;
+}
+
+.shake {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+@keyframes shake {
+    10%, 90% {
+        -webkit-transform: translate3d(-2px, 0, 0);
+           -moz-transform: translate3d(-2px, 0, 0);
+             -ms-transform: translate3d(-2px, 0, 0);
+                -o-transform: translate3d(-2px, 0, 0);
+                     transform: translate3d(-2px, 0, 0);
+    }
+
+    20%, 80% {
+        -webkit-transform: translate3d(4px, 0, 0);
+           -moz-transform: translate3d(4px, 0, 0);
+             -ms-transform: translate3d(4px, 0, 0);
+                -o-transform: translate3d(4px, 0, 0);
+                     transform: translate3d(4px, 0, 0);
+    }
+
+    30%, 50%, 70% {
+        -webkit-transform: translate3d(-8px, 0, 0);
+           -moz-transform: translate3d(-8px, 0, 0);
+             -ms-transform: translate3d(-8px, 0, 0);
+                -o-transform: translate3d(-8px, 0, 0);
+                     transform: translate3d(-8px, 0, 0);
+    }
+
+    40%, 60% {
+        -webkit-transform: translate3d(2px, 0, 0);
+           -moz-transform: translate3d(2px, 0, 0);
+             -ms-transform: translate3d(2px, 0, 0);
+                -o-transform: translate3d(2px, 0, 0);
+                     transform: translate3d(2px, 0, 0);
+    }
 }

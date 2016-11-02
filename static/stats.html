@@ -10,7 +10,6 @@
     <div id="chartdiv"></div>
     <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/amcharts/3.13.0/amcharts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/amcharts/3.13.0/pie.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/amcharts/3.13.0/serial.js"></script>
@@ -24,6 +23,7 @@
         shortURL = shortURL[shortURL.length - 2];
 
         socket.emit("stats", shortURL, function(stats) {
+            console.log(stats);
             if (stats.status) {
                 for (var i = 0; i < stats.stats.length; i++) {
                     stats.stats[i].timestamp = new Date(stats.stats[i].timestamp * 1000);
@@ -47,7 +47,7 @@
                     chart.write('chartdiv');
                 });
             } else {
-                window.location.href = "/";
+                // window.location.href = "/";
             }
         });
     });
