@@ -41,7 +41,8 @@ express.prototype.serveShorts = function(app, shortener) {
 
 express.prototype.serveStats = function(app) {
   app.get('/:short/stats', function(req, res) {
-      res.sendFile(path.resolve("./static/stats.html"))
+    res.status(404).redirect("/");
+      // res.sendFile(path.resolve("./static/stats.html"))
   })
 }
 
