@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="description" content="A blazing fast URL shortener built by SubjectRefresh."/>
+    <meta property="og:description" content="A blazing fast URL shortener built by SubjectRefresh."/>
+    <meta property='og:url' content='http://subr.pw/'/>
+    <title>Shortener | Made by SubjectRefresh</title>
+    <link rel="stylesheet" type="text/css" href="css/shortener.css" />
+</head>
+
+<body>
+    <div style="max-width: 1400px; margin-left: auto; margin-right: auto;position: relative;padding: 2em">
+        <h1>API docs</h1>
+        <p>The Shortener HTTP API is very simple. There are two endpoints, as shown below - one for creating short links and one for finding out where they lead (lengthening)</p>
+        <table style="width: 100%;text-align: left">
+            <tr>
+                <th>Endpoint</th>
+                <th>Method</th>
+                <th>Example data object</th>
+                <th>Example response</th>
+            </tr>
+            <tr>
+                <td>/api/create</td>
+                <td>POST</td>
+                <td><code>{ url: "http://yourdomain.com" }</code></td>
+                <td><code>{ status: true, shortlink: "http://subr.pw/9zckSc"}</code></td>
+            </tr>
+            <tr>
+                <td>/api/lengthen</td>
+                <td>POST</td>
+                <td><code>{ url: "9zckSc" }</code></td>
+                <td><code>{ status: true, url: "http://yourdomain.com" }</code></td>
+            </tr>
+        </table>
+    </div>
+    <footer>
+        <p>Made by <a href="//subjectrefresh.info">SubjectRefresh</a></p>
+    </footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+        (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-69122586-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+</body>
+</html>

@@ -49,6 +49,12 @@ express.prototype.serveStats = function(app) {
   })
 }
 
+express.prototype.serveDocs = function(app) {
+  app.get("/docs", function(req, res) {
+    res.sendFile(path.resolve("./docs.html"));
+  })
+}
+
 var urlRegExp = /^(https?:\/\/|)[a-z0-9-\.]+\.[a-z]{2,63}\/?([^\s<>\#"\,\{\}\\|\\\^\[\]`]+)?$/
 express.prototype.serveApi = function(app, shortener) {
   app.post("/api/create", function(req, res) {

@@ -23,6 +23,7 @@ mongo.connect(config, function(db) {
       var http = server.serve(config, app)
       socket.init(http, shortener, db)
       express.serveStatic(app)
+      express.serveDocs(app)
       express.serveShorts(app, shortener)
       // shortener.mnemonicGenerator("www.happygoogle.com", function(blarg) {continue})
       // express.serveStats(app, shortener)

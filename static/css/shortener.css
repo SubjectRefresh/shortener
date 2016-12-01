@@ -26,6 +26,7 @@ html {
 }
 
 body {
+    color: rgba(255, 255, 255, .4);
     font-family: "Muli";
     background: #001F3F;
 }
@@ -201,4 +202,8 @@ footer a {
     footer {
         font-size: 1rem;
     }
+}
+
+.text-center {
+    text-align: center;
 }
