@@ -2,7 +2,10 @@ var socket = function () {}
 var logger = require('./logger.js')
 var l = 'SOCKT'
 
-var urlRegExp = /^(https?:\/\/|)[a-z0-9-\.]+\.[a-z]{2,63}\/?([^\s<>\#"\,\{\}\\|\\\^\[\]`]+)?$/
+// the regex below was written by Diego Perini and is licensed under the MIT license.
+// see https://gist.github.com/dperini/729294
+
+var urlRegExp = require("./url-regex.js");
 
 socket.prototype.init = function(http, shortener, db) {
   var io = require('socket.io')(http)

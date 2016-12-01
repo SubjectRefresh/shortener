@@ -55,7 +55,8 @@ express.prototype.serveDocs = function(app) {
   })
 }
 
-var urlRegExp = /^(https?:\/\/|)[a-z0-9-\.]+\.[a-z]{2,63}\/?([^\s<>\#"\,\{\}\\|\\\^\[\]`]+)?$/
+var urlRegExp = require("./url-regex.js");
+
 express.prototype.serveApi = function(app, shortener) {
   app.post(["/api/create", "/api/shorten"], function(req, res) {
     var url = req.body.url;
