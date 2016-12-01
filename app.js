@@ -9,10 +9,13 @@ var mongo = require('./modules/mongo.js')
 var server = require('./modules/server.js')
 var socket = require('./modules/socket.js')
 var shortener = require('./modules/shortener')
+var bodyParser = require('body-parser')
 
 var l = 'APP'
 mongo.connect(config, function(db) {
   var app = express.init()
+ app.use(bodyParser.json())
+ app.use(bodyParser.urlencoded({ extended: true }))
   shortener.init(function (ok) {
     if (!ok) { logger.error(l, "Error initiating shortener module") }
     else {
@@ -24,6 +27,7 @@ mongo.connect(config, function(db) {
       // shortener.mnemonicGenerator("www.happygoogle.com", function(blarg) {continue})
       // express.serveStats(app, shortener)
       express.serveStats(app)
+      express.serveApi(app, shortener)
     }
   })
 })
