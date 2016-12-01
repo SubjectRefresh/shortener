@@ -57,7 +57,7 @@ express.prototype.serveDocs = function(app) {
 
 var urlRegExp = /^(https?:\/\/|)[a-z0-9-\.]+\.[a-z]{2,63}\/?([^\s<>\#"\,\{\}\\|\\\^\[\]`]+)?$/
 express.prototype.serveApi = function(app, shortener) {
-  app.post("/api/create", function(req, res) {
+  app.post(["/api/create", "/api/shorten"], function(req, res) {
     var url = req.body.url;
     if (url.indexOf('http') == -1) { // this also accounts for https
       url = 'http://' + url
@@ -86,7 +86,7 @@ express.prototype.serveApi = function(app, shortener) {
     }
   })
 
-  app.post("/api/lengthen", function(req, res) {
+  app.post(["/api/lengthen", "/api/expand"], function(req, res) {
     var url = req.body.url;
     if (url) {
       shortener.retrieve(url, function(retrieval) {
