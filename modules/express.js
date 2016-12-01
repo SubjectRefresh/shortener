@@ -79,6 +79,30 @@ express.prototype.serveApi = function(app, shortener) {
       })
     }
   })
+
+  app.post("/api/lengthen", function(req, res) {
+    var url = req.body.url;
+    if (url) {
+      shortener.retrieve(url, function(retrieval) {
+        if (retrieval.status) {
+          res.json({
+            status: true,
+            url: retrieval.stats // why stats?!
+          })
+        } else {
+          res.status(404).json({
+            status: false,
+            message: "Unknown short URL"
+          })
+        }
+      })
+    } else {
+      res.status(400).json({
+        status: false,
+        message: "Missing URL parameter"
+      })
+    }
+  })
 }
 
 
