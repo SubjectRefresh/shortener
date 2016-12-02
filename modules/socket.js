@@ -5,7 +5,7 @@ var l = 'SOCKT'
 // the regex below was written by Diego Perini and is licensed under the MIT license.
 // see https://gist.github.com/dperini/729294
 
-var urlRegExp = require("./url-regex.js");
+var urlRegExp = require("./url-regex.js")
 
 socket.prototype.init = function(http, shortener, db) {
   var io = require('socket.io')(http)
@@ -41,7 +41,6 @@ socket.prototype.init = function(http, shortener, db) {
           shortener.retrieve(data.url, function (retrieval) {
             if (retrieval.status) {
               logger.success(l, 'Redirecting ' + data.url + ' to ' + retrieval.url)
-              // res.redirect(302, data.long); // 302 means browsers don't bypass us next time
               callback(retrieval.url)
             } else {
               logger.warn('Unknown short URL: ' + data.url)
@@ -52,7 +51,12 @@ socket.prototype.init = function(http, shortener, db) {
     })
     socket.on("stats", function(shortURL, callback){
       shortener.getStats(shortURL, function(information){
-        callback(information);
+        callback(information)
+      })
+    })
+    socket.on("get count", function(callback){
+      shortener.countLinks(function(count){
+        callback(count)
       })
     })
   })

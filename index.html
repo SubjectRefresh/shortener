@@ -14,7 +14,7 @@
         <div class="input-field full">
             <label for="url">Long URL</label>
             <input type="text" id="url" onClick="this.select();" autocomplete="off">
-        </div><span class="title"><span id="count">0</span> New shortlinks</span>
+        </div><span class="title"><span id="total_count">0</span> shortlinks - <span id="count">0</span> new</span>
     </form>
     <footer>
         <p>Made by <a href="//subjectrefresh.info">SubjectRefresh</a> | Looking for the <a href="docs">API docs</a>?</p>
@@ -36,9 +36,16 @@
 
 
     $(function() {
+        var total_count = 0;
         var count = 0;
         var socket = io();
         var url;
+
+        socket.emit("get count", function(count) {
+            total_count = count;
+            $("#total_count").html(total_count);
+        })
+
         $("form").on("submit", function() {
             url = $("#url").val();
             generateShortlink(url);
@@ -53,7 +60,9 @@
         });
         socket.on("increment count", function() {
             count++;
+            total_count++;
             $("#count").html(count);
+            $("#total_count").html(total_count);
         });
 
         function generateShortlink(url) {
@@ -61,6 +70,7 @@
             socket.emit("url", url, function(packet) {
                 if (packet.status) {
                     $("#count").html(count);
+                    $("#total_count").html(total_count);
                     $("#url").fadeOut("fast", function() {
                         $("#url").val(packet.shortlink).fadeIn("fast").click();
                     });

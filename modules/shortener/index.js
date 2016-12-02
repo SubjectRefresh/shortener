@@ -243,6 +243,13 @@ function getStats(shortURL, callback) {
     })
 }
 
+function countLinks(callback) {
+    URLCollection.count(function(error, count){
+        if (!error) callback(count)
+        else logger.error(l, "Failed to count URLs: " + error)
+    })
+}
+
 module.exports = {
     init: init,
     retrieve: retrieve,
@@ -250,5 +257,6 @@ module.exports = {
     randomString: randomString,
     generateFiles: generateFiles,
     mnemonicGenerator: mnemonicGenerator,
-    getStats: getStats
+    getStats: getStats,
+    countLinks: countLinks
 };
