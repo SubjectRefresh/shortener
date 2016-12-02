@@ -6,6 +6,12 @@ var l = 'EXPRS'
 var node_express = require('express')
 var path = require('path')
 
+var Handlebars = require('handlebars')
+var fs = require('fs')
+
+var redirectHTML = fs.readFileSync("./redirect.html", "utf8");
+var redirectTemplate = Handlebars.compile(redirectHTML);
+
 express.prototype.init = function() {
   return node_express()
 }
@@ -30,11 +36,18 @@ express.prototype.serveShorts = function(app, shortener) {
   app.get('/:short', function(req, res) {
       shortener.retrieve(req.params.short, function(data) {
           if (data.status) {
-              console.log('[Shortener] Redirecting ' + req.params.short + ' to ' + data.long)
-                  // res.redirect(302, data.long); // 302 means browsers don't bypass us next time
-              res.sendFile(path.resolve('./redirect.html'))
+              logger.success(l, 'Redirecting ' + req.params.short + ' to ' + data.url)
+              var redirectData = {
+                title: data.title,
+                description: data.description,
+                og_description: data.og_description,
+                og_image: data.og_image,
+                url: data.url
+              }
+              var result = redirectTemplate(redirectData)
+              res.status(200).send(result)
           } else {
-              console.log('[Shortener] Unknown short URL: ' + req.params.short)
+              logger.warning(l, '[Shortener] Unknown short URL: ' + req.params.short)
               res.status(404).redirect('/')
           }
       })
@@ -71,7 +84,7 @@ express.prototype.serveApi = function(app, shortener) {
     } else {
       shortener.shorten(url, null, function (status) {
         if (status.status == true) {
-          logger.success(l, 'Converted ' + url + ' to ' + status.short)
+          logger.success(l, 'Shortened ' + url + ' to ' + status.short)
           res.json({
             status: true,
             shortlink: status.short
@@ -79,7 +92,7 @@ express.prototype.serveApi = function(app, shortener) {
         } else {
           res.status(500).json({
             status: false,
-            message: "Unknown error"
+            message: status.message
           })
           logger.error(l, 'We ran into a problem')
         }
@@ -94,7 +107,7 @@ express.prototype.serveApi = function(app, shortener) {
         if (retrieval.status) {
           res.json({
             status: true,
-            url: retrieval.stats // why stats?!
+            url: retrieval.url
           })
         } else {
           res.status(404).json({

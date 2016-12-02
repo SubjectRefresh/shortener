@@ -14,8 +14,10 @@
     "body-parser": "^1.15.2",
     "colour": "^0.7.1",
     "express": "4.10.2",
+    "handlebars": "^4.0.6",
     "mongodb": "^2.1.7",
     "path": "^0.12.7",
+    "request": "^2.79.0",
     "short": "^2.6.0",
     "socket.io": "1.2.0"
   },

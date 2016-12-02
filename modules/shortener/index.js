@@ -1,10 +1,10 @@
 var mongodb = require("mongodb");
 var MongoClient = mongodb.MongoClient;
 var fs = require("fs");
+var request = require("request")
 var logger = require('../logger.js')
 var nouns = [];
 var adjs = [];
-
 
 function generateFiles() {
     nouns = fs.readFileSync('./modules/shortener/nouns.txt').toString().split("\n")
@@ -83,63 +83,115 @@ function mnemonicGenerator(url, callback) {
     }
 }
 
+var titleRegex = new RegExp("<title>(.*?)</title>", "i")
+var metaDescriptionRegex = new RegExp("<meta[^>]*name=[\"|\']description[\"|\'][^>]*content=[\"]([^\"]*)[\"][^>]*>", "i")
+var ogDescriptionRegex = new RegExp("<meta[^>]*property=[\"|\']og:description[\"|\'][^>]*content=[\"]([^\"]*)[\"][^>]*>", "i")
+var ogImageRegex = new RegExp("<meta[^>]*property=[\"|\']og:image[\"|\'][^>]*content=[\"]([^\"]*)[\"][^>]*>", "i")
+
 function shorten(url, customURL, callback) {
-    var changed = false;
-    if (customURL == null) {
-        changed = true;
-        customURL = randomString(6, "aA#");
-    }
-    URLCollection.find({
-        long: url
-    }).toArray(function(err, result) {
-        if (err) {
-            logger.error(l, err);
-        } else if (result.length) {
-            logger.warning(l, "Long Already Exists");
-            if (!changed) {} else {}
-            callback({
-                status: true,
-                short: baseURL + result[0].short
-            });
-        } else {
-            if (customURL != null) {
-                URLCollection.find({
-                    short: customURL
-                }).toArray(function(err, result) {
-                    if (err) {
-                        logger.error(l, err);
-                    } else if (result.length) {
-                        logger.warning(l, "customURL Already Exists");
-                        callback({
-                            status: false,
-                            short: null
-                        });
-                    } else {
-                        var data = {
-                            short: customURL,
-                            long: url
-                        };
-                        URLCollection.insert(data, function(err, result) {
+    request(url, function (error, response, body) {
+        if (!error && response.statusCode != 404) { // we only care about 404s
+            
+            var title = body.match(titleRegex)
+            if (title) title = title[1]
+            else title = null
+
+            var description = body.match(metaDescriptionRegex)
+            if (description) description = description[1]
+            else description = null
+
+            var og_description = body.match(ogDescriptionRegex)
+            if (og_description) og_description = og_description[1]
+            else og_image = null
+
+            var og_image = body.match(ogImageRegex)
+            if (og_image) og_image = og_image[1]
+            else og_image = null
+
+            var changed = false;
+            if (customURL == null) {
+                changed = true;
+                customURL = randomString(6, "aA#");
+            }
+            URLCollection.find({
+                long: url
+            }).toArray(function(err, result) {
+                if (err) {
+                    logger.error(l, err);
+                } else if (result.length) {
+                    logger.warning(l, "URL already exists");
+                    URLCollection.update({
+                        _id: result[0]._id
+                    }, {
+                        $set: {
+                            title: title,
+                            description: description,
+                            og_description: og_description,
+                            og_image: og_image
+                        }
+                    });
+                    if (!changed) {} else {}
+                    callback({
+                        status: true,
+                        short: baseURL + result[0].short
+                    });
+                } else {
+                    if (customURL != null) {
+                        URLCollection.find({
+                            short: customURL
+                        }).toArray(function(err, result) {
                             if (err) {
                                 logger.error(l, err);
-                            } else {
-                                fs.appendFile('./static/shortened.html', "<span style='font-family:monospace;'>" + baseURL + customURL + " | " + url + "</span><br />\n", function (err) {
-                                    if (err) logger.error(l, err)
-                                });
-                                logger.log(l, "Added CustomURL to Database");
+                            } else if (result.length) {
+                                logger.warning(l, "Custom URL already exists")
                                 callback({
-                                    status: true,
-                                    short: baseURL + customURL
+                                    status: false,
+                                    short: null,
+                                    message: "Custom URL already exists"
+                                });
+                            } else {
+                                var data = {
+                                    short: customURL,
+                                    long: url,
+                                    title: title,
+                                    description: description,
+                                    og_description: description,
+                                    og_image: og_image
+                                };
+                                URLCollection.insert(data, function(err, result) {
+                                    if (err) {
+                                        logger.error(l, err);
+                                    } else {
+                                        logger.success(l, "Added custom URL to database")
+                                        callback({
+                                            status: true,
+                                            short: baseURL + customURL
+                                        });
+                                    }
                                 });
                             }
                         });
+                    } else {
+                        logger.error(l, "Shortening URL went wrong...")
                     }
+                }
+            });
+        } else {
+            if (error) {
+                callback({
+                    status: false,
+                    short: null,
+                    message: "Error fetching " + url + ": " + error
                 });
             } else {
-                logger.error(l, "CustomURL'ing went wrong...");
+                callback({
+                    status: false,
+                    short: null,
+                    message: url + " returned a " + response.statusCode
+                });
             }
         }
-    });
+    })
 }
 
 function retrieve(shortURL, callback) {
@@ -152,13 +204,17 @@ function retrieve(shortURL, callback) {
         } else if (result.length) {
             callback({
                 status: true,
-                stats: result[0].long
+                url: result[0].long,
+                description: result[0].description,
+                og_image: result[0].og_image,
+                og_description: result[0].og_description,
+                title: result[0].title
             });
         } else {
             // No result!
             callback({
                 status: false,
-                stats: "https://subr.pw/"
+                url: "https://subr.pw/"
             })
         }
     })

@@ -2,11 +2,14 @@
 <html>
 
 <head>
-    <title>Redirecting | Made by SubjectRefresh</title>
+    <title>{{title}}</title>
+    <meta name="description" content="{{description}}"/>
+    <meta property="og:description" content="{{og_description}}"/>
+    <meta property="og:image" content="{{og_image}}"/>
+    <meta property="og:url" content="{{url}}"/>
 </head>
 
 <body>
-    <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
     <script>
     (function(i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
@@ -24,28 +27,7 @@
     ga('send', 'pageview');
     
     (function() {
-        var socket = io();
-        var data = {
-            codename: navigator.appCodeName,
-            name: navigator.appName,
-            version: navigator.appVersion,
-            cookies: navigator.cookieEnabled,
-            language: navigator.language,
-            online: navigator.onLine,
-            platform: navigator.platform,
-            useragent: navigator.userAgent,
-            vendor: navigator.vendor,
-            height: window.screen.height,
-            width: window.screen.width,
-            url: window.location.pathname,
-            timestamp: String(Math.round(new Date().getTime() / 1000.0))
-        }
-
-        data.url = data.url.substr(1)
-
-        socket.emit("data", data, function(url) {
-            window.location.replace(url)
-        })
+        window.location.replace("{{url}}")
     })()
     </script>
 </body>
