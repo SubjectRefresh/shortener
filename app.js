@@ -11,6 +11,13 @@ var socket = require('./modules/socket.js')
 var shortener = require('./modules/shortener')
 var bodyParser = require('body-parser')
 
+require('pmx').init({
+  http : true,
+  ignore_routes : [/socket\.io/],
+  ports: true
+})
+
+
 var l = 'APP'
 mongo.connect(config, function(db) {
   var app = express.init()

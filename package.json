@@ -17,6 +17,7 @@
     "handlebars": "^4.0.6",
     "mongodb": "^2.1.7",
     "path": "^0.12.7",
+    "pmx": "^0.6.8",
     "request": "^2.79.0",
     "short": "^2.6.0",
     "socket.io": "1.2.0"
