@@ -94,7 +94,7 @@ express.prototype.serveApi = function(app, shortener) {
             status: false,
             message: status.message
           })
-          logger.error(l, 'We ran into a problem')
+          logger.error(l, 'We ran into a problem: ' + status.message)
         }
       })
     }
