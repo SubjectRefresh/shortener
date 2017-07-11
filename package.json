@@ -4,7 +4,10 @@
   "description": "A URL Shortener",
   "main": "app.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test.js",
+    "start": "node app.js",
+    "deploy:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
+    "deploy:prod": "docker-compose up --build"
   },
   "repository": {
     "type": "git",
@@ -17,7 +20,6 @@
     "handlebars": "^4.0.6",
     "mongodb": "^2.1.7",
     "path": "^0.12.7",
-    "pmx": "^0.6.8",
     "request": "^2.79.0",
     "short": "^2.6.0",
     "socket.io": "1.2.0"
@@ -30,5 +32,8 @@
   "bugs": {
     "url": "https://github.com/SubjectRefresh/shortener/issues"
   },
-  "homepage": "https://github.com/SubjectRefresh/shortener#readme"
+  "homepage": "https://github.com/SubjectRefresh/shortener#readme",
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
 }

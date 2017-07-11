@@ -13,7 +13,7 @@ Trace (0) - A fly moves a couple of centimeters in Africa, you'll know about it.
 
 config.loggingLevel = 'debug'
 
-config.port = 3004
-config.url = "mongodb://localhost/shortener"
+config.port = process.env.PORT || 3004
+config.mongo = "mongodb://mongo:27017/shortener"
 
 module.exports = config

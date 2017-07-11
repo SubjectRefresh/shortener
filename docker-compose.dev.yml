@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  mongo:
+    ports:
+      - 27018:27017
+  
+  web:
+    build: .
+    volumes:
+      - /app/node_modules # prevent them being overwritten by the above
+      - .:/app
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+    ports:
+      - 3001:3001
