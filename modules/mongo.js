@@ -9,12 +9,13 @@ var MongoClient = mongodb.MongoClient
 mongo.connect(config, callback) {} -- Connects to MongoDB
 */
 
+
 mongo.prototype.connect = function (config, callback) {
-  MongoClient.connect(config.url, function (err, db) {
+  MongoClient.connect(config.mongo, function (err, db) {
     if (err) {
       logger.error(l, 'Unable to connect to the mongoDB server. Error: ' + err)
     } else {
-      logger.log(l, 'Connection established to ' + config.url)
+      logger.log(l, 'Connection established to ' + config.mongo)
       callback(db)
     }
   })

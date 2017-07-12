@@ -32,8 +32,8 @@ function shuffle(array) {
 }
 
 var l = "SHORT"
-var dbURL = "mongodb://localhost/shortener"
-var baseURL = "http://subr.pw/";
+var dbURL = require('../../config').mongo
+var baseURL = 'http' + (process.env.SSL == 'true' ? 's' : '') + '://' + (process.env.BASE_URL || 'localhost')
 
 var URLCollection;
 var UserCollection;

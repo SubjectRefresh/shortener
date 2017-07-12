@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo:latest
+
+  web:
+    build: .
+    ports:
+      - 8080:8080
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      NODE_ENV: production
+      BASE_URL: subr.pw
+      SSL: 'true'
+      PORT: 8080
+    depends_on:
+      - mongo
+    command: ["npm", "start"]
