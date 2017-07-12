@@ -3,6 +3,8 @@ version: '3'
 services:
   mongo:
     image: mongo:latest
+    volumes:
+      - /data/db
 
   web:
     build: .
@@ -10,12 +12,12 @@ services:
       - 8080:8080
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 6
     environment:
       NODE_ENV: production
-      BASE_URL: subr.pw
-      SSL: 'true'
       PORT: 8080
+      SSL: 'true'
+      URL: subr.pw
     depends_on:
       - mongo
     command: ["npm", "start"]

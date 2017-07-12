@@ -1,39 +1,50 @@
 {
   "name": "shortener",
   "version": "1.0.0",
-  "description": "A URL Shortener",
-  "main": "app.js",
+  "description": "A URL shortener service",
+  "main": "server.js",
   "scripts": {
-    "test": "node test.js",
-    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "build:docs": "apidoc -i controllers/ -o static/docs",
+    "nodemon": "nodemon",
+    "dev": "npm run nodemon -- -i static",
     "deploy:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
     "deploy:prod": "docker-compose up --build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SubjectRefresh/shortener.git"
-  },
-  "dependencies": {
-    "body-parser": "^1.15.2",
-    "colour": "^0.7.1",
-    "express": "4.10.2",
-    "handlebars": "^4.0.6",
-    "mongodb": "^2.1.7",
-    "path": "^0.12.7",
-    "request": "^2.79.0",
-    "short": "^2.6.0",
-    "socket.io": "1.2.0"
+    "url": "git+ssh://git@github.com/subjectrefresh/shortener.git"
   },
   "keywords": [
-    "shortener"
+    "url",
+    "shortener",
+    "mongo",
+    "nodejs"
   ],
-  "author": "Subject Refresh",
-  "license": "ISC",
+  "author": "",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SubjectRefresh/shortener/issues"
+    "url": "https://github.com/subjectrefresh/shortener/issues"
   },
-  "homepage": "https://github.com/SubjectRefresh/shortener#readme",
+  "homepage": "https://github.com/subjectrefresh/shortener#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.11.1",
+    "mongoose-shortid-nodeps": "^0.6.5",
+    "morgan": "^1.8.2",
+    "nodemon": "^1.11.0",
+    "request": "^2.81.0",
+    "short": "^2.6.0",
+    "socket.io": "^2.0.3"
+  },
+  "apidoc": {
+    "title": "Shortener API documentation"
+  },
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "apidoc": "^0.17.6"
   }
 }

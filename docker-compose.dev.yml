@@ -3,15 +3,19 @@ version: '3'
 services:
   mongo:
     ports:
-      - 27018:27017
-  
+      - '27018:27017'
+
   web:
     build: .
     volumes:
-      - /app/node_modules # prevent them being overwritten by the above
-      - .:/app
+      - /shortener/node_modules # prevent them being overwritten by the above
+      - .:/shortener
     environment:
       NODE_ENV: development
+      SSL: 'false'
+      URL: localhost
       PORT: 3001
     ports:
       - 3001:3001
+    command: ["npm", "run", "dev"]
+  

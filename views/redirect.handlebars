@@ -2,11 +2,11 @@
 <html>
 
 <head>
-    <title>{{title}}</title>
-    <meta name="description" content="{{description}}"/>
-    <meta property="og:description" content="{{og_description}}"/>
-    <meta property="og:image" content="{{og_image}}"/>
-    <meta property="og:url" content="{{url}}"/>
+    <title>{{short.title}}</title>
+    <meta name="description" content="{{short.description}}"/>
+    <meta property="og:description" content="{{short.og_description}}"/>
+    <meta property="og:image" content="{{short.og_image}}"/>
+    <meta property="og:url" content="{{short.url}}"/>
 </head>
 
 <body>
@@ -27,7 +27,7 @@
     ga('send', 'pageview');
     
     (function() {
-        window.location.replace("{{{url}}}")
+        window.location.replace("{{{short.url}}}")
     })()
     </script>
 </body>
