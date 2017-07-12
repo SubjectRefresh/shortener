@@ -59,6 +59,10 @@ app.get('/s/:short', (req, res, next) => {
     if (!doc) return res.status(404)
 
     res.render('redirect', { layout: false, short: doc })
+
+    doc.incrementHit((err, result) => {
+      if (err) console.error(err)
+    })
   })
 })
 
