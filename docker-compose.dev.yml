@@ -12,7 +12,7 @@ services:
       - .:/shortener
     environment:
       NODE_ENV: development
-      SSL: false
+      SSL: 'false'
       URL: localhost
       PORT: 3001
     ports:
