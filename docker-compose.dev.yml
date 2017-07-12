@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    volumes:
+      - /shortener/node_modules # prevent them being overwritten by the above
+      - .:/shortener
+    environment:
+      NODE_ENV: development
+    command: ["npm", "run", "dev"]
+
+  mongo:
+    ports:
+      - '27018:27017'

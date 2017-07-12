@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo:latest
+    volumes:
+      - /data/db
+
+  web:
+    build: .
+    ports:
+      - 8080:8080
+    deploy:
+      mode: replicated
+      replicas: 6
+    environment:
+      NODE_ENV: production
+      PORT: 8080
+    depends_on:
+      - mongo
+    command: ["npm", "start"]

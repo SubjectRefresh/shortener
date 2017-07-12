@@ -5,7 +5,12 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "build:docs": "apidoc -i controllers/ -o static/docs",
+    "nodemon": "nodemon",
+    "dev": "npm run nodemon -- -i static",
+    "deploy:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
+    "deploy:prod": "docker-compose up --build"
   },
   "repository": {
     "type": "git",
@@ -27,8 +32,19 @@
     "body-parser": "^1.17.2",
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
+    "express-handlebars": "^3.0.0",
     "mongoose": "^4.11.1",
+    "mongoose-shortid-nodeps": "^0.6.5",
     "morgan": "^1.8.2",
+    "nodemon": "^1.11.0",
+    "request": "^2.81.0",
+    "short": "^2.6.0",
     "socket.io": "^2.0.3"
+  },
+  "apidoc": {
+    "title": "Shortener API documentation"
+  },
+  "devDependencies": {
+    "apidoc": "^0.17.6"
   }
 }
