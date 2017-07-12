@@ -41,6 +41,7 @@ app.set('view engine', 'handlebars')
 
 app.use(express.static(__dirname + '/static'))
 app.use(morgan('dev'))
+app.use('/docs', express.static(__dirname + '/docs'))
 app.use(bodyParser.urlencoded({ extended: false }))
 
 

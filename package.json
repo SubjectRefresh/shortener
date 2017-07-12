@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "build:docs": "apidoc -i controllers/ -o static/docs",
+    "build:docs": "apidoc -i controllers/ -o docs",
     "nodemon": "nodemon",
     "dev": "npm run nodemon -- -i static",
     "deploy:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
