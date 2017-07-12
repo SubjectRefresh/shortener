@@ -1,0 +1,34 @@
+{
+  "name": "shortener",
+  "version": "1.0.0",
+  "description": "A URL shortener service",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/subjectrefresh/shortener.git"
+  },
+  "keywords": [
+    "url",
+    "shortener",
+    "mongo",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/subjectrefresh/shortener/issues"
+  },
+  "homepage": "https://github.com/subjectrefresh/shortener#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3",
+    "mongoose": "^4.11.1",
+    "morgan": "^1.8.2",
+    "socket.io": "^2.0.3"
+  }
+}
