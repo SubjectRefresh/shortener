@@ -31,6 +31,6 @@ FROM base AS release
 # copy production node_modules
 COPY --from=dependencies /shortener/node_modules ./node_modules
 # copy in built docs
-COPY --from=build /shortener/static/docs ./static
+COPY --from=build /shortener/docs ./static
 # copy app sources
 COPY . .
