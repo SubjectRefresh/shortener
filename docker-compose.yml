@@ -5,6 +5,10 @@ services:
     image: mongo:latest
     volumes:
       - /data/db
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
 
   web:
     image: subjectrefresh/shortener:latest
