@@ -16,6 +16,8 @@ services:
     environment:
       NODE_ENV: production
       PORT: 8080
+      SSL: true
+      URL: subr.pw
     depends_on:
       - mongo
     command: ["npm", "start"]

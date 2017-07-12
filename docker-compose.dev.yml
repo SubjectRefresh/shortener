@@ -1,6 +1,10 @@
 version: '3'
 
 services:
+  mongo:
+    ports:
+      - '27018:27017'
+
   web:
     build: .
     volumes:
@@ -8,8 +12,10 @@ services:
       - .:/shortener
     environment:
       NODE_ENV: development
-    command: ["npm", "run", "dev"]
-
-  mongo:
+      SSL: false
+      URL: localhost
+      PORT: 3001
     ports:
-      - '27018:27017'
+      - 3001:3001
+    command: ["npm", "run", "dev"]
+  
