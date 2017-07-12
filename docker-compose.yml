@@ -7,7 +7,7 @@ services:
       - /data/db
 
   web:
-    build: .
+    image: subjectrefresh/shortener:latest
     ports:
       - 8080:8080
     deploy:
