@@ -19,11 +19,9 @@ services:
       replicas: 6
     environment:
       NODE_ENV: production
-      PORT: 8080
+      PORT: 80
       SSL: 'true'
       URL: subr.pw
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
     depends_on:
       - mongo
     secrets:
