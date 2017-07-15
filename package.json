@@ -11,8 +11,7 @@
     "dev": "npm run nodemon -- -i static",
     "deploy:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
     "deploy:prod": "docker-compose up --build",
-    "version": "./release.sh",
-    "postversion": "git push && git push --tags"
+    "postversion": "./release.sh && git push && git push --tags"
   },
   "repository": {
     "type": "git",
