@@ -12,7 +12,7 @@ COPY package.json package-lock.json ./
 # ---- Dependencies ----
 FROM base AS dependencies
 # install node packages
-RUN npm set progress=false && npm config set depth 0
+RUN npm set progress=false && npm config set depth 0 && npm cache clean
 RUN npm install --only=production
 # copy production node_modules aside
 RUN cp -R node_modules prod_node_modules
