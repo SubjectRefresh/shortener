@@ -1,10 +1,19 @@
-version: '3'
+version: '3.2'
 
 services:
   mongo:
     image: mongo:latest
     volumes:
       - /data/db
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - /data
     deploy:
       placement:
         constraints:
@@ -22,6 +31,14 @@ services:
       PORT: 8080
       SSL: 'true'
       URL: subr.pw
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     depends_on:
       - mongo
+    secrets:
+      - shortener_session_secret
     command: ["npm", "start"]
+
+secrets:
+  shortener_session_secret:
+    external: true

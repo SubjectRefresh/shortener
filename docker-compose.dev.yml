@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2'
 
 services:
   mongo:
@@ -19,3 +19,6 @@ services:
       - 3001:3001
     command: ["npm", "run", "dev"]
   
+secrets:
+  shortener_session_secret:
+    file: ./secrets/session_secret

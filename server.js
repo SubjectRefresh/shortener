@@ -7,6 +7,7 @@ const morgan = require('morgan')
 const utilities = require('./helpers/utilities')
 const app = express()
 const http = require('http').Server(app)
+const redis = require('socket.io-redis');
 
 dotenv.load()
 
@@ -124,6 +125,8 @@ const port = process.env.PORT || 3000
 const base_url = (SSL ? 'https://' : 'http://') + (process.env.URL || 'localhost')
 const host = base_url + (port == 80 ? '' : `:${port}`)
 global.io = require('socket.io')(http)
+
+io.adapter(redis({ host: process.env.REDIS_HOST, port: process.env.REDIS_PORT }));
 
 io.on('connection', (socket) => {
   socket.on('get count', (cb) => {
