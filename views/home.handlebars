@@ -1,13 +1,12 @@
 <form>
   <div class="input-field full">
     <label for="url">Long URL</label>
-    <input type="text" id="url" onClick="this.select();" autocomplete="off">
-  </div><span class="title">{{shortlinks}} shortlinks - <span id="count">0</span> new</span>
+    <input type="text" id="url" onClick="this.select()" autocomplete="off">
+  </div><span class="title">{{shortlinks}} shortlinks</span>
 </form>
 <footer>
   <p>Made by <a href="//subjectrefresh.info">SubjectRefresh</a> | Looking for the <a href="docs">API docs</a>?</p>
 </footer>
-<script src="/socket.io/socket.io.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
 $('input').focus(function() {
@@ -24,62 +23,51 @@ $('input').blur(function() {
 
 
 $(function() {
-  var total_count = 0;
-  var count = 0;
-  var socket = io();
-  var url;
+  var host = '{{host}}'
 
-  socket.emit("get count", function(count) {
-    total_count = count;
-    $("#total_count").html(total_count);
+  $("form").on("submit", function(e) {
+    e.preventDefault()
+    generateShortlink($("#url").val())
+    return false
   })
 
-  $("form").on("submit", function() {
-    url = $("#url").val();
-    generateShortlink(url);
-    return false;
-  });
-
   $("#url").on("paste", function() {
-    var element = this;
+    var element = this
     setTimeout(function() { // otherwise the value is blank
-      generateShortlink($(element).val());
-    }, 0);
-  });
-  socket.on("new link", function() {
-    count++;
-    total_count++;
-    $("#count").html(count);
-    $("#total_count").html(total_count);
-  });
+      generateShortlink($(element).val())
+    }, 0)
+  })
 
   function generateShortlink(url) {
-    $("#url").removeClass("shake");
-    socket.emit("shorten", url, function(packet) {
-      if (packet.ok) {
-        $("#count").html(count);
-        $("#total_count").html(total_count);
-        $("#url").fadeOut("fast", function() {
-          $("#url").val(packet.host + '/s/' + packet.short).fadeIn("fast").click();
-        });
-      } else {
-        $("#url").addClass("shake");
-      }
-    });
+    $("#url").removeClass("shake")
+    superagent
+      .post('/api/v1/short')
+      .send({ url, update_key: null })
+      .end(function(err, res) {
+        if (err || !res.ok) {
+          console.log(err, res)
+          $("#url").addClass("shake")
+        } else {
+          $("#url").fadeOut("fast", function() {
+            $("#url").val(host + '/s/' + res.body.data.short).fadeIn("fast").click()
+          })
+        }
+      })
   }
 });
+
 (function(i, s, o, g, r, a, m) {
-  i['GoogleAnalyticsObject'] = r;
+  i['GoogleAnalyticsObject'] = r
   i[r] = i[r] || function() {
       (i[r].q = i[r].q || []).push(arguments)
-  }, i[r].l = 1 * new Date();
+  }, i[r].l = 1 * new Date()
   a = s.createElement(o),
-      m = s.getElementsByTagName(o)[0];
-  a.async = 1;
-  a.src = g;
+      m = s.getElementsByTagName(o)[0]
+  a.async = 1
+  a.src = g
   m.parentNode.insertBefore(a, m)
-})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga')
 
-ga('create', 'UA-69122586-2', 'auto');
-ga('send', 'pageview');
+ga('create', 'UA-69122586-2', 'auto')
+ga('send', 'pageview')
 </script>

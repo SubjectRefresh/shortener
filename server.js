@@ -7,7 +7,6 @@ const morgan = require('morgan')
 const utilities = require('./helpers/utilities')
 const app = express()
 const http = require('http').Server(app)
-const redis = require('socket.io-redis');
 
 dotenv.load()
 
@@ -16,6 +15,10 @@ const DEVELOPMENT = (process.env.NODE_ENV == 'development' ? true : false)
 const STAGING = (process.env.NODE_ENV == 'staging' ? true : false)
 const config = require('./config')[process.env.NODE_ENV.toLowerCase()]
 const SSL = (process.env.SSL == 'true' ? true : false)
+
+const port = process.env.PORT || 3000
+const base_url = (SSL ? 'https://' : 'http://') + (process.env.URL || 'localhost')
+const host = base_url + (port == 80 ? '' : `:${port}`)
 
 if (DEVELOPMENT) {
   // mongoose.set('debug', true)
@@ -44,13 +47,14 @@ app.use(express.static(__dirname + '/static'))
 app.use(morgan('dev'))
 app.use('/docs', express.static(__dirname + '/docs'))
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 app.use(require('./routers'))
 
 app.get('/', (req, res, next) => {
   models.Url.find().count((err, shortlinks) => {
     if (err) return next(err)
-    res.render('home', { shortlinks })
+    res.render('home', { host, shortlinks })
   })
 })
 
@@ -118,38 +122,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status).render('error', {
     error: err.status,
     message: err.message
-  })
-})
-
-const port = process.env.PORT || 3000
-const base_url = (SSL ? 'https://' : 'http://') + (process.env.URL || 'localhost')
-const host = base_url + (port == 80 ? '' : `:${port}`)
-global.io = require('socket.io')(http)
-
-io.adapter(redis({ host: process.env.REDIS_HOST, port: process.env.REDIS_PORT }));
-
-io.on('connection', (socket) => {
-  socket.on('get count', (cb) => {
-    models.Url.find().count((err, count) => {
-      if (err) {
-        console.error(err)
-        return cb(0)
-      }
-      cb(count)
-    })
-  })
-
-  socket.on('shorten', (url, cb) => {
-    models.Url.create({
-      url,
-      update_key: null // disable updation of this item
-    }, (err, doc) => {
-      if (err) {
-        console.error(err)
-        return cb({ ok: false, err })
-      }
-      cb({ ok: true, short: doc.short, host })
-    })
   })
 })
 

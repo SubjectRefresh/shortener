@@ -10,15 +10,6 @@ services:
         constraints:
           - node.role == manager
 
-  redis:
-    image: redis:alpine
-    volumes:
-      - /data
-    deploy:
-      placement:
-        constraints:
-          - node.role == manager
-
   web:
     image: subjectrefresh/shortener:latest
     ports:

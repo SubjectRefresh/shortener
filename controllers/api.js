@@ -157,10 +157,10 @@ module.exports.get = (req, res, next) => {
  */
 
 module.exports.post = (req, res, next) => {
-  if (!req.body.update_key || req.body.update_key == '') return next(utilities.makeError('InvalidParamUpdateKey'))
+  // a null update_key means it cannot be updated
+  if (req.body.update_key === undefined || req.body.update_key == '') return next(utilities.makeError('InvalidParamUpdateKey'))
   Url.create(req.body, (err, doc) => {
     if (err) return next(err)
-    global.io.emit('new link')
     res.status(201).json({
       ok: true,
       message: 'Created',
