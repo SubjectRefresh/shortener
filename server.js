@@ -44,7 +44,6 @@ app.use(morgan('dev'))
 app.use('/docs', express.static(__dirname + '/docs'))
 app.use(bodyParser.urlencoded({ extended: false }))
 
-
 app.use(require('./routers'))
 
 app.get('/', (req, res, next) => {
@@ -54,10 +53,14 @@ app.get('/', (req, res, next) => {
   })
 })
 
+app.get('/s', (req, res, next) => {
+  return res.status(301).redirect('/')
+})
+
 app.get('/s/:short', (req, res, next) => {
   models.Url.findOne({ short: req.params.short }, (err, doc) => {
     if (err) return next(err)
-    if (!doc) return res.status(404)
+    if (!doc) return next()
 
     res.render('redirect', { layout: false, short: doc })
 
@@ -75,7 +78,8 @@ app.use(function(req, res, next){
 
 // api error handler
 app.use('/api', function(err, req, res, next){
-  console.error(err)
+  err.status = err.status || 500
+  if (err.status == 500) console.error(err)
 
   switch (err.name) {
     case 'CastError':
@@ -97,8 +101,6 @@ app.use('/api', function(err, req, res, next){
       break
   }
 
-  err.status = err.status || 500
-
   res.status(err.status).json({
     ok: false,
     code: err.status,
@@ -108,10 +110,11 @@ app.use('/api', function(err, req, res, next){
 })
 
 // HTML error handler
-app.use(function(err, req, res, next){
-  console.error(err.stack)
+app.use(function(err, req, res, next) {
+  err.status = err.status || 500
+  if (err.status == 500) console.error(err.stack)
 
-  res.status(err.status || 500).render('error', {
+  res.status(err.status).render('error', {
     error: err.status,
     message: err.message
   })
