@@ -4,7 +4,7 @@ services:
   mongo:
     image: mongo:latest
     volumes:
-      - /data/db
+      - mongo-data:/data/db
     deploy:
       placement:
         constraints:
@@ -31,3 +31,6 @@ services:
 secrets:
   shortener_session_secret:
     external: true
+
+volumes:
+  mongo-data:
