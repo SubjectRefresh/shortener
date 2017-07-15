@@ -3,7 +3,7 @@
 # build images & push to hub
 
 TAG=`node -p "require('./package.json').version"`
-IMAGE="subjectrefresh/uptimebot"
+IMAGE="subjectrefresh/shortener"
 
 echo "Building $IMAGE:$TAG"
 docker build -t $IMAGE:$TAG . && \
