@@ -1,5 +1,4 @@
 const pkg = require('../package.json')
-exports.secrets = require('docker-secrets')
 
 exports.revision = require('child_process').execSync('git rev-parse HEAD').toString().trim()
 exports.version = pkg.version

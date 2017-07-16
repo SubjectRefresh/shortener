@@ -29,8 +29,9 @@ RUN npm run build:docs
 # ---- Release ----
 FROM base AS release
 # copy production node_modules
-COPY --from=dependencies /shortener/node_modules ./node_modules
+COPY --from=dependencies /shortener/prod_node_modules ./node_modules
 # copy in built docs
 COPY --from=build /shortener/docs ./
 # copy app sources
 COPY . .
+CMD npm start

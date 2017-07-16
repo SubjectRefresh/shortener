@@ -6,7 +6,9 @@ services:
       - '27018:27017'
 
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     volumes:
       - /shortener/node_modules # prevent them being overwritten by the above
       - .:/shortener
@@ -17,8 +19,3 @@ services:
       PORT: 3001
     ports:
       - 3001:3001
-    command: ["npm", "run", "dev"]
-  
-secrets:
-  shortener_session_secret:
-    file: ./secrets/session_secret

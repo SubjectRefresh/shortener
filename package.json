@@ -31,14 +31,12 @@
   "homepage": "https://github.com/subjectrefresh/shortener#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
-    "docker-secrets": "^1.0.2",
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "express-handlebars": "^3.0.0",
     "mongoose": "^4.11.1",
     "mongoose-shortid-nodeps": "^0.6.5",
     "morgan": "^1.8.2",
-    "nodemon": "^1.11.0",
     "request": "^2.81.0",
     "short": "^2.6.0"
   },
@@ -46,6 +44,7 @@
     "title": "Shortener API documentation"
   },
   "devDependencies": {
-    "apidoc": "^0.17.6"
+    "apidoc": "^0.17.6",
+    "nodemon": "^1.11.0"
   }
 }

@@ -24,13 +24,6 @@ services:
       URL: subr.pw
     depends_on:
       - mongo
-    secrets:
-      - shortener_session_secret
-    command: ["npm", "start"]
-
-secrets:
-  shortener_session_secret:
-    external: true
 
 volumes:
   mongo-data:
