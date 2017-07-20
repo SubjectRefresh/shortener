@@ -12,18 +12,33 @@ services:
 
   web:
     image: subjectrefresh/shortener:latest
-    ports:
-      - 80:80
     deploy:
       mode: replicated
-      replicas: 6
+      replicas: 4
     environment:
       NODE_ENV: production
-      PORT: 80
+      PORT: 3000
       SSL: 'true'
       URL: subr.pw
     depends_on:
       - mongo
+
+  nginx:
+    image: nginx:stable-alpine
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /usr/share/nginx/html:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - web
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+    ports:
+      - 80:80
+      - 443:443
 
 volumes:
   mongo-data:

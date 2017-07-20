@@ -18,7 +18,7 @@ const SSL = (process.env.SSL == 'true' ? true : false)
 
 const port = process.env.PORT || 3000
 const base_url = (SSL ? 'https://' : 'http://') + (process.env.URL || 'localhost')
-const host = base_url + (port == 80 ? '' : `:${port}`)
+const host = base_url + ':80'
 
 if (DEVELOPMENT) {
   // mongoose.set('debug', true)

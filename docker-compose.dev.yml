@@ -16,6 +16,5 @@ services:
       NODE_ENV: development
       SSL: 'false'
       URL: localhost
-      PORT: 3001
     ports:
-      - 3001:3001
+      - 3000:3000
