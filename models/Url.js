@@ -52,7 +52,7 @@ urlSchema.pre('save', function(next) {
   request(this.url, (err, response, body) => {
     if (err) return next(err)
     if (response.statusCode != 404) { // we only care about 404s
-        
+
       let title = body.match(titleRegex)
       if (title) title = title[1]
       else title = null
@@ -65,6 +65,7 @@ urlSchema.pre('save', function(next) {
 
       let og_description = body.match(ogDescriptionRegex)
       if (og_description) og_description = og_description[1]
+      else if (description) og_description = description // use description instead
       else og_description = null
       this.og_description = og_description
 

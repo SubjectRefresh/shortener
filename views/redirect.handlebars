@@ -3,8 +3,8 @@
 
 <head>
     <title>{{short.title}}</title>
-    <meta name="description" content="{{short.description}}"/>
-    <meta property="og:description" content="{{short.og_description}}"/>
+    <meta name="description" content="{{{short.description}}}"/>
+    <meta property="og:description" content="{{{short.og_description}}}"/>
     <meta property="og:image" content="{{short.og_image}}"/>
     <meta property="og:url" content="{{short.url}}"/>
 </head>
@@ -25,7 +25,7 @@
 
     ga('create', 'UA-69122586-2', 'auto');
     ga('send', 'pageview');
-    
+
     (function() {
         window.location.replace("{{{short.url}}}")
     })()
