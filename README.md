@@ -23,4 +23,4 @@ Or
 
 See the included Docker compose files for environment variables & other configuration.
 
-Feel free to hack around and show us what you build with it!
+Feel free to hack around and show us what you build with it - PRs welcome!
