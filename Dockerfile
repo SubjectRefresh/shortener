@@ -30,6 +30,9 @@ RUN npm run build:docs
 FROM base AS release
 # copy production node_modules
 COPY --from=dependencies /shortener/prod_node_modules ./node_modules
+# prune for good measure
+RUN npm prune --production
+RUN rm -rf .git .gitignore *.sh docker-compose* Dockerfile* *.md nginx.conf
 # copy in built docs
 COPY --from=build /shortener/docs ./
 # copy app sources
