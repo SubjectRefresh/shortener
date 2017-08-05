@@ -76,7 +76,11 @@ app.get('/s/:short', (req, res, next) => {
 })
 
 app.get('/:short', (req, res, next) => {
-  return res.status(301).redirect('/s/' + req.params.short)
+  if (['api', 'docs', '/'].indexOf(req.params.short) === -1) {
+    return res.status(301).redirect('/s/' + req.params.short)
+  } else {
+    return next()
+  }
 })
 
 app.use(function(req, res, next) {
