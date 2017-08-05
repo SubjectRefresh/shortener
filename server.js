@@ -62,7 +62,7 @@ app.get('/s', (req, res, next) => {
   return res.status(301).redirect('/')
 })
 
-app.get('/s/:short', (req, res, next) => {
+app.get(['/s/:short', '/:short'], (req, res, next) => {
   models.Url.findOne({ short: req.params.short }, (err, doc) => {
     if (err) return next(err)
     if (!doc) return next()
@@ -75,14 +75,14 @@ app.get('/s/:short', (req, res, next) => {
   })
 })
 
-app.use(function(req, res, next){
+app.use(function(req, res, next) {
   let e = new Error('Page not found')
   e.status = 404
   next(e)
 })
 
 // api error handler
-app.use('/api', function(err, req, res, next){
+app.use('/api', function(err, req, res, next) {
   err.status = err.status || 500
   if (err.status == 500) console.error(err)
 
