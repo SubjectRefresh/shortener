@@ -1,6 +1,6 @@
 {
   "name": "shortener",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "description": "A URL shortener service",
   "main": "server.js",
   "scripts": {
