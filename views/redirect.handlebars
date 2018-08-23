@@ -25,6 +25,11 @@
 
     ga('create', 'UA-69122586-2', 'auto');
     ga('send', 'pageview');
+    ga('send', 'event', {
+      eventCategory: 'Redirect',
+      eventAction: 'automattic',
+      eventLabel: '{{{short.url}}}'
+    });
 
     (function() {
         window.location.replace("{{{short.url}}}")
