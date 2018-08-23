@@ -2,12 +2,21 @@
 <html>
 
 <head>
-    <meta name="description" content="A blazing fast URL shortener built by SubjectRefresh."/>
-    <meta property="og:description" content="A blazing fast URL shortener built by SubjectRefresh."/>
-    <meta property='og:url' content='http://subr.pw/'/>
-    <title>{{#if title}}{{title}}{{else}}Shortener | Made by SubjectRefresh{{/if}}</title>
-    <link rel="stylesheet" type="text/css" href="/css/shortener.css" />
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js'></script>
+  <meta name="description" content="A blazing fast URL shortener built by SubjectRefresh."/>
+  <meta property="og:description" content="A blazing fast URL shortener built by SubjectRefresh."/>
+  <meta property='og:url' content='http://subr.pw/'/>
+  <title>{{#if title}}{{title}}{{else}}Shortener | Made by SubjectRefresh{{/if}}</title>
+  <link rel="stylesheet" type="text/css" href="/css/shortener.css" />
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js'></script>
+  {{#if showAds}}
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-3884627036744525",
+      enable_page_level_ads: true
+     });
+    </script>
+  {{/if}}
 </head>
 <body>
   {{{body}}}

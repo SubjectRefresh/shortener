@@ -128,6 +128,7 @@ app.use(function(err, req, res, next) {
   if (err.status == 500) console.error(err.stack)
 
   res.status(err.status).render('error', {
+    showAds: true,
     error: err.status,
     message: err.message
   })
