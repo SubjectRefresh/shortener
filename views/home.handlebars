@@ -27,18 +27,18 @@ $(function() {
 
   $("form").on("submit", function(e) {
     e.preventDefault()
-    generateShortlink($("#url").val())
+    generateShortlink($("#url").val(), 'form')
     return false
   })
 
   $("#url").on("paste", function() {
     var element = this
     setTimeout(function() { // otherwise the value is blank
-      generateShortlink($(element).val())
+      generateShortlink($(element).val(), 'paste')
     }, 0)
   })
 
-  function generateShortlink(url) {
+  function generateShortlink(url, origin) {
     $("#url").removeClass("shake")
     superagent
       .post('/api/v1/short')
@@ -47,7 +47,20 @@ $(function() {
         if (err || !res.ok) {
           console.log(err, res)
           $("#url").addClass("shake")
+
+          ga('send', 'event', {
+            eventCategory: 'Failure',
+            eventAction: 'shorten-' + origin,
+            eventLabel: url
+          });
+
         } else {
+          ga('send', 'event', {
+            eventCategory: 'Shortened',
+            eventAction: 'shorten-' + origin,
+            eventLabel: url
+          });
+
           $("#url").fadeOut("fast", function() {
             $("#url").val(host + '/s/' + res.body.data.short).fadeIn("fast").click()
           })
