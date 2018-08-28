@@ -54,7 +54,7 @@ app.use(require('./routers'))
 app.get('/', (req, res, next) => {
   models.Url.find().count((err, shortlinks) => {
     if (err) return next(err)
-    res.render('home', { host, shortlinks })
+    res.render('home', { host, shortlinks, showAds: true })
   })
 })
 
