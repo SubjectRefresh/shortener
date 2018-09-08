@@ -17,7 +17,7 @@ const config = require('./config')[process.env.NODE_ENV.toLowerCase()]
 const SSL = (process.env.SSL == 'true' ? true : false)
 
 const port = process.env.PORT || 3000
-const base_url = (SSL ? 'https://' : 'http://') + (process.env.URL || 'localhost')
+const base_url = (SSL ? 'https://' : 'http://') + (process.env.URL || 'localhost') + (port !== 80 ? ':' + port : '')
 const host = base_url
 
 if (DEVELOPMENT) {
@@ -54,7 +54,7 @@ app.use(require('./routers'))
 app.get('/', (req, res, next) => {
   models.Url.find().count((err, shortlinks) => {
     if (err) return next(err)
-    res.render('home', { host, shortlinks, showAds: true })
+    res.render('home', { shortlinks })
   })
 })
 
@@ -119,6 +119,22 @@ app.use('/api', function(err, req, res, next) {
     code: err.status,
     message: err.message,
     error: err.error
+  })
+})
+
+
+// 404 error handler for shortlinks
+// we have to add this so that we can use req.params
+// see https://github.com/expressjs/express/issues/2577
+app.use('/s/:short', function(err, req, res, next) {
+  err.status = err.status || 500
+  if (err.status == 500) console.error(err.stack)
+
+  res.status(err.status).render('error', {
+    showAds: true,
+    error: err.status,
+    message: err.message,
+    short: req.params.short
   })
 })
 

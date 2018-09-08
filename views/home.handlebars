@@ -37,10 +37,25 @@
     }
   });
 
+  if (!window.location.origin) {
+    window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+  }
+
+  function showShortText(short, cb) {
+    if (!cb) cb = function() {}
+    var $label = $("label[for='url']");
+    var $url = $('#url');
+    var $selector = $("#url, label[for='url']");
+
+    if ($label.text() === 'Short URL') $selector = $url;
+
+    $selector.fadeOut("fast", function() {
+      $url.val(window.location.origin + '/s/' + short).fadeIn("fast", cb).click();
+      if ($selector !== $url) $label.text('Short URL').fadeIn('fast');
+    });
+  }
 
   $(function() {
-    var host = '{{host}}';
-
     $("form").on("submit", function(e) {
       e.preventDefault();
       generateShortlink($("#url").val(), 'form');
@@ -56,6 +71,7 @@
 
     function generateShortlink(url, origin) {
       $("#url").removeClass("shake");
+
       superagent
         .post('/api/v1/short')
         .send({ url, update_key: null })
@@ -64,38 +80,20 @@
             console.log(err, res);
             $("#url").addClass("shake");
 
-            ga('send', 'event', {
-              eventCategory: 'Failure',
-              eventAction: 'shorten-' + origin,
-              eventLabel: url
+            gtag('event', 'shorten-' + origin, {
+              event_category: 'Failure',
+              event_label: url
             });
           } else {
-            ga('send', 'event', {
-              eventCategory: 'Shortened',
-              eventAction: 'shorten-' + origin,
-              eventLabel: url
+            gtag('event', 'shorten-' + origin, {
+              event_category: 'Shortened',
+              event_label: url,
+              short: res.body.data.short
             });
 
-            $("#url").fadeOut("fast", function() {
-              $("#url").val(host + '/s/' + res.body.data.short).fadeIn("fast").click();
-            });
+            showShortText(res.body.data.short)
           }
         });
     }
   });
-
-  (function(i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r;
-    i[r] = i[r] || function() {
-        (i[r].q = i[r].q || []).push(arguments)
-    }, i[r].l = 1 * new Date();
-    a = s.createElement(o),
-    m = s.getElementsByTagName(o)[0];
-    a.async = 1;
-    a.src = g;
-    m.parentNode.insertBefore(a, m)
-  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-  ga('create', 'UA-69122586-2', 'auto');
-  ga('send', 'pageview');
 </script>
