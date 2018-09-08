@@ -130,7 +130,7 @@ app.use('/s/:short', function(err, req, res, next) {
   err.status = err.status || 500
   if (err.status == 500) console.error(err.stack)
 
-  res.status(err.status).render('error', {
+  res.status(err.status === 404 ? 302 : err.status).render('error', {
     showAds: true,
     error: err.status,
     message: err.message,
